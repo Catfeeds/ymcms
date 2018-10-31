@@ -1,0 +1,102 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>        
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的内容.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+                <div class="templist">
+                	<p class="templistit">电脑PC模板</p>
+                	{empty name="list_pc"}
+                    <p style="padding:50px;text-align:center;">暂无相关数据</p>
+                    {else/}    
+                	<ul>
+                    	{volist name="list_pc" id="vo"}
+                    	<li id="{$vo.id}">
+                        	<p class="img"><img src="__SYSTEM__/image{$vo.picture}" alt="{$vo.name}" /><span class="space">&nbsp;</span></p>
+                            <p class="nam"><span class="t">编号：</span>{$vo.id}</p>
+                            <p class="nam"><span class="t">名称：</span>{$vo.name}</p>
+                            <p class="des"><span class="t">简介：</span>{$vo.description}</p>
+                            <p class="btn">
+                            	{if condition='$usetemp.pc != $vo.id '}<a class="use" href="javascript:;">使用</a>{else/}<a href="javascript:;">正在使用中..</a>{/if}
+                           		<a class="fit" href="{:url('web/website.cms/tempfit')}?id={$vo.id}">去装修</a>
+                            </p>
+                        </li>
+                        {/volist}
+                    </ul>
+                    {/empty} 
+                 </div>
+                 <div class="templist">
+                	<p class="templistit">手机WAP模板</p>
+                	{empty name="list_wap"}
+                    <p style="padding:50px;text-align:center;">暂无相关数据</p>
+                    {else/}    
+                	<ul>
+                    	{volist name="list_wap" id="vo"}
+                    	<li id="{$vo.id}">
+                        	<p class="img"><img src="__SYSTEM__/image{$vo.picture}" alt="{$vo.name}" /><span class="space">&nbsp;</span></p>
+                            <p class="nam"><span class="t">编号：</span>{$vo.id}</p>
+                            <p class="nam"><span class="t">名称：</span>{$vo.name}</p>
+                            <p class="des"><span class="t">简介：</span>{$vo.description}</p>
+                            <p class="btn">
+                            	{if condition='$usetemp.wap != $vo.id '}<a class="use" href="javascript:;">使用</a>{else/}<a href="javascript:;">正在使用中..</a>{/if}
+                           		<a class="fit" href="{:url('web/website.cms/tempfit')}?id={$vo.id}">去装修</a>
+                            </p>
+                        </li>
+                        {/volist}
+                    </ul>
+                    {/empty}                      
+                </div>
+
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?limit="+$(this).val()+"{notempty name='search'}&search={$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*使用*/
+					$(".use").click(function(){
+						id = $(this).parents('li').attr('id');
+						alertBox('使用后网站原风格将被替换，确定使用？',"{:url('web/website.cms/tempuse')}?id="+id,'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

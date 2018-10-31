@@ -1,0 +1,126 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <form action="" id="fileups" method="post" enctype="multipart/form-data">
+        <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+        <div class="section" style="min-height:0;">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />发件设置
+            </div>
+            <!--内容 start-->
+            <div class="info">         
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">发件方名称：</span></div>
+                        <div class="rig"><input type="text" name="re_name" value="{notempty name='content'}{$content.email_re_name}{/notempty}" placeholder="请输入发件方名称.." /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">发件方邮箱：</span></div>
+                        <div class="rig"><input type="text" name="re_address" value="{notempty name='content'}{$content.email_re_address}{/notempty}" placeholder="请输入发件方邮箱.." /></div>
+                    </li>                    
+                </ul>
+            </div>
+            <!--内容 end-->
+        </div> 
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />发件测试
+            </div>
+            <!--内容 start-->
+            <div class="info">         
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">收件邮箱：</span></div>
+                        <div class="rig"><input type="text" name="address" value="" placeholder="请输入收件邮箱.." /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">邮件标题：</span></div>
+                        <div class="rig"><input type="text" name="title" value="" placeholder="请输入邮件标题.." /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">文本内容：</span></div>
+                        <div class="rig">
+                        	<div class="inpcon">
+                            <!-- 加载编辑器的容器 -->
+							<script id="container" name="message" type="text/plain"></script>
+							<script type="text/javascript">
+							$(document).ready(function(e){
+                                //实例化编辑器
+                                var ue = UE.getEditor('container');							
+                            });
+                            </script>       
+                            </div>
+                        </div>
+                    </li>
+                    <!--
+                	<li>
+                    	<div class="lef"><span class="nam">其它附件：</span></div>
+                        <div class="rig"><div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_2" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label></div><input type="hidden" name="file" class="fileval" value="" /></div>
+                    </li>
+                    -->                 
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				/*实时整理上传参数*/
+				function fileval(randclass){
+					var filejson_li = randclass.parents('li');
+					var filejson_arr = new Array();
+					filejson_li.find('.files').each(function(i){
+                        filejson_arr[i] = $(this).find('.filejson').attr('filename');
+                    });
+					filejson_li.find('.fileval').val(filejson_arr);					
+				}
+				$('.fileval').each(function(){
+                   fileval($(this)); 
+                });
+                /*异步上传的回调方法*/
+                function stopUpload(filename,oldname,randclass){
+					var randclass = $('.'+randclass);
+					var filesrc = '{$sitedir}'+filename;
+					randclass.find('img').addClass('filejson').attr('src',filesrc).attr('filename',filename);
+					randclass.find('b').text(oldname);
+					fileval(randclass);
+                }						
+				$(document).ready(function(e){
+					/*选择图片*/
+					function filechange(){	
+						/*选取事件*/
+						$('.filesinp').change(function(){
+							/*增加异步识别类*/
+							var mydate = new Date();
+							var randclass = 'ajax'+mydate.getTime()+parseInt(999990*Math.random());
+							$(this).parents('label').addClass(randclass);
+							/*提交表单*/
+							var inpname = $(this).attr('name');
+							$("#fileups").attr("action","{:url('cms/fileups')}?inpname="+inpname+"&randclass="+randclass);
+							$("#fileups").attr("target","upload_target");
+							$("#fileups").submit();
+						})
+					}
+					filechange();
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();						
+					})
+                });
+				</script>
+            </div>
+            <!--内容 end-->
+        </div>                 
+        <form>      
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

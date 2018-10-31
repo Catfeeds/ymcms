@@ -1,0 +1,58 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">标题：</span></div>
+                        <div class="rig"><textarea name="title" placeholder="请输入标题..">{notempty name='content'}{$content.title}{/notempty}</textarea></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">关键词：</span></div>
+                        <div class="rig"><textarea name="keywords" placeholder="请输入关键词..">{notempty name='content'}{$content.keywords}{/notempty}</textarea></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">描述：</span></div>
+                        <div class="rig"><textarea name="description" placeholder="请输入描述..">{notempty name='content'}{$content.description}{/notempty}</textarea></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">所有者：</span></div>
+                        <div class="rig"><textarea name="author" placeholder="请输入所有者..">{notempty name='content'}{$content.author}{/notempty}</textarea></div>
+                    </li>                                      
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				$(document).ready(function(e){
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();
+					})
+                });
+				</script>
+              <form>
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

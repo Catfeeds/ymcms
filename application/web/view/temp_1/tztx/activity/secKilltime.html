@@ -1,0 +1,177 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style type="text/css">
+    .col-sm-5 label{
+        margin-right: 40px;
+    }
+</style>
+<div id="main">
+    {include file="$temp_aside" /}
+    <div id="content">
+        <div class="title">
+          <div class="box">
+            <div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>        
+            <!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+                <ul>             
+                    <li>
+                        <div class="lef"><span class="nam">开放时间：</span></div>
+                        
+                            <div class="col-sm-5">
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="0" type="checkbox" class="dis_0 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">00:00~00:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="1" type="checkbox" class="dis_1 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">01:00~01:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="2" type="checkbox" class="dis_2 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">02:00~02:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="3" type="checkbox" class="dis_3 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">03:00~03:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="4" type="checkbox" class="dis_4 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">04:00~04:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="5" type="checkbox" class="dis_5 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">05:00~05:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="6" type="checkbox" class="dis_6 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">06:00~06:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="7" type="checkbox" class="dis_7 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">07:00~07:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="8" type="checkbox" class="dis_8 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">08:00~08:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="9" type="checkbox" class="dis_9 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">09:00~09:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="10" type="checkbox" class="dis_10 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">10:00~10:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="11" type="checkbox" class="dis_11 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">11:00~11:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="12" type="checkbox" class="dis_12 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">12:00~12:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="13" type="checkbox" class="dis_13 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">13:00~13:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="14" type="checkbox" class="dis_14 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">14:00~14:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="15" type="checkbox" class="dis_15 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">15:00~15:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="16" type="checkbox" class="dis_16 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">16:00~16:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="17" type="checkbox" class="dis_17 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">17:00~17:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]"  value="18" type="checkbox" class="dis_18 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">18:00~18:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]"  value="19" type="checkbox" class="dis_19 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">19:00~19:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]"  value="20" type="checkbox" class="dis_20 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">20:00~20:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]"  value="21" type="checkbox" class="dis_21 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">21:00~21:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="22" type="checkbox" class="dis_22 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">22:00~22:59</span>
+                                </label>
+                                <label class="custom-control custom-checkbox">
+                                    <input name="open_time[]" value="23" type="checkbox" class="dis_23 custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">23:00~23:59</span>
+                                </label>
+                            </div>
+                        
+                    </li>
+                    <li>
+                        <div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="submit" id="upmit">提交</button></div>
+                    </li>
+                </ul>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        {volist name="list" id="vo"}
+            $(".dis_{$vo['open']}").attr('checked','checked')
+        {/volist}
+    })
+</script>
+
+<!--主体内容 end-->
+{include file="$temp_footer" /}

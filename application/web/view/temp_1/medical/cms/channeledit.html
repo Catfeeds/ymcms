@@ -1,0 +1,111 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.cms/channellist')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">名称：</span></div>
+                        <div class="rig"><input type="text" name="name" value="{notempty name='content'}{$content.name}{/notempty}" placeholder="请输入名称.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">简介：</span></div>
+                        <div class="rig"><textarea name="description" placeholder="请输入简介..">{notempty name='content'}{$content.description}{/notempty}</textarea></div>
+                    </li>
+                	<li class="hide">
+                    	<div class="lef"><span class="nam">频道首页模板：</span></div>
+                        <div class="rig"><input type="text" name="temp_home" value="{notempty name='content'}{$content.temp_home}{/notempty}" /></div>
+                    </li>
+                	<li class="hide">>
+                    	<div class="lef"><span class="nam">频道列表模板：</span></div>
+                        <div class="rig"><input type="text" name="temp_list" value="{notempty name='content'}{$content.temp_list}{/notempty}" /></div>
+                    </li> 
+                	<li class="hide">>
+                    	<div class="lef"><span class="nam">频道详情模板：</span></div>
+                        <div class="rig"><input type="text" name="temp_content" value="{notempty name='content'}{$content.temp_content}{/notempty}" /></div>
+                    </li>                                                    	
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>                                 	
+                    <li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">
+                        	<div class="switches"><img src="" imga="__IMAGE__/switches_a.png" imgb="__IMAGE__/switches_b.png" status="{notempty name='content'}{$content.status}{else/}1{/notempty}" /><span>启用</span></div>
+                            <input id="status" type="hidden" name="status" value="{notempty name='content'}{$content.status}{else/}1{/notempty}" />
+                        </div>
+                    </li> 
+                    {notempty name='content'}
+                    <li>
+                    	<div class="lef"><span class="nam">添加时间：</span></div>
+                        <div class="rig"><span class="des">{$content.addtime|date="Y-m-d H:i:s",###}</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">修改时间：</span></div>
+                        <div class="rig"><span class="des">{$content.edittime|date="Y-m-d H:i:s",###}</span></div>
+                    </li> 
+                    {/notempty}                                        
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>                                                        
+                </ul>              
+                <script>
+				$(document).ready(function(e){				
+                    /*状态*/
+					function changestatus(){
+						var status = $(".switches img").attr('status');
+						if(status == 1){
+							$(".switches img").attr('src',$(".switches img").attr('imgb'));
+                            $(".switches img").parent().find('span').text('启用');
+						}else{
+							$(".switches img").attr('src',$(".switches img").attr('imga'));
+                            $(".switches img").parent().find('span').text('禁用');
+						}
+					}
+					changestatus()
+					$(".switches img").click(function(){
+						if($(this).attr('status') == 1){
+							$(this).attr('status',0);
+							$(this).attr('src',$(this).attr('imga'));
+							$(this).parent().find('span').text('禁用');
+							$("#status").val(0);
+						}else{
+							$(this).attr('status',1);
+							$(this).attr('src',$(this).attr('imgb'));
+							$(this).parent().find('span').text('启用');
+							$("#status").val(1);						
+						}
+						changestatus();
+					})
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();						
+					})
+                });
+				</script>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

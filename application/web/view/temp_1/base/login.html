@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta name="keywords" content="{$keywords}">
+    <meta name="description" content="{$description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{$dir_site}/favicon.ico" />
+    <link rel="stylesheet" href="{$dir_temp}/file/login/css/index.css"> 	
+    <!--[if IE]>
+    <script src="https://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <![endif]-->    
+</head>
+<body>
+		<div id="large-header" class="large-header">
+			<canvas id="demo-canvas" style="margin: 0;padding: 0;"></canvas>
+			<div class="login">
+				<p class="login-t">酒莱线上运营智能系统</p>
+				<div class="input-box">
+					<img src="__IMAGE__/ico_white/user.png" />
+					<input id="name" type="text" placeholder="用户名"/>
+				</div>
+				<div class="input-box">
+					<img src="__IMAGE__/ico_white/unlock.png" />
+					<input id="password" type="password" placeholder="密码"/>
+				</div>
+				<button id="login" type="button">登录</button>
+			</div>
+			<div  class="index-zc">技术支持：<a target="view_window" href="javascript:;">湖南云盟科技有限公司</a></div>
+		</div>
+		<script type="text/javascript" src="{$dir_temp}/file/login/js/index.js" ></script>
+		<script type="text/javascript">
+			//调用
+			window.onload = function(){
+				width = window.innerWidth;
+	        	height = window.innerHeight;
+				var dotline = new Dotline({
+					dom:'demo-canvas',
+					cw: width,
+					ch:height,
+					ds:80,
+					r:1,
+					dis:120
+				}).start();
+			}
+		</script>
+<script>
+$(document).ready(function(){	
+	/*登录方法*/
+	function login(){
+		var name = $("#name").val();
+		var password = $("#password").val();
+		$.post("{:url('base/login_in')}",{
+			name : name,
+			password : password
+		},function(data){
+			data = eval("("+data+")");
+			if(data.status == 100){
+				var url = "{:url('base/server')}";
+				alertBox(data.msg,url);
+			}else if(data.status == 800){
+				var url = "{:url('center/index')}";
+				location = url;
+				//alertBox(data.msg,url);
+			}else{
+				alertBox(data.msg);
+			}
+		});
+	}
+	/*点击登录*/
+	$("#login").click(function(){
+		login();
+	})
+	/*键盘空格或Enter提交*/
+	$(document).keydown(function(event){
+		if(event.keyCode == 32 || event.keyCode == 13){
+			if($("#alertFBX").length > 0){}else{
+				login();
+			}
+		}
+	});
+});
+</script>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

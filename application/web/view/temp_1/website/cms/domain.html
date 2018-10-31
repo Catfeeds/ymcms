@@ -1,0 +1,54 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">站点原始域名：</span></div>
+                        <div class="rig">http://{notempty name='content'}{$content.no}{/notempty}.{$server_domain}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">二级域名设置：</span></div>
+                        <div class="rig">http://<input class="short" name="domain_two" placeholder="请输入域名前缀.." value="{notempty name='content'}{$content.domain_two}{/notempty}" />.{$server_domain}<span class="des">请输入二级域名前缀，如：hrb,完整域名即为hrb.{$server_domain}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">绑定顶级域名：</span></div>
+                        <div class="rig">http://www.<input class="short" name="domain_top" placeholder="请输入您的顶级域名.." value="{notempty name='content'}{$content.domain_top}{/notempty}" /><span class="des">请输入不带www的顶级域名（如：{$server_domain}）</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>   
+                <script>
+				$(document).ready(function(e){
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();
+					})
+                });
+				</script>
+              <form>
+            </div>
+            <!--内容 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

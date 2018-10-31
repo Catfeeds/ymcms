@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta name="keywords" content="{$keywords}">
+    <meta name="description" content="{$description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{$dir_site}/favicon.ico" />
+    <link rel="stylesheet" href="{$dir_temp}/file/css/login.css" />
+</head>
+<body>
+<!--主体内容 start-->
+<div class="server">
+	<p class="title"><img src="__IMAGE__/ico_white/imac.png" />选择应用{if condition="$server_id == 15 "}站点{elseif condition="$server_id == 21"/}公众帐户{/if}<a href="{:url('base/server')}"><< 返回</a><a href="{:url('base/login_out_on')}">安全退出</a></p>
+    <div class="box">
+		<p class="tit"><img src="__IMAGE__/ico_black/list_2.png" />{if condition="$server_id == 15 "}站点{elseif condition="$server_id == 21"/}公众帐户{/if}列表</p>
+        <ul class="sitlis">
+          {empty name="list"}
+          <li>暂无已开通站点...</li>
+          {else/}
+          {volist name="list" id="vo"}
+            <li>
+                <span class="nam"><img src="{$vo.ico}" />{$vo.name}</span>
+                <span class="sta">{$vo.status}</span>
+                <span class="mar"><a href="javascript:;" class="del" id="{$vo.id}"><img src="__IMAGE__/ico_black/bin.png" />删除</a><a href="{:url('base/siteedit')}?site_id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/imac.png" />进入管理>></a></span>
+            </li>
+          {/volist}
+          {/empty}
+          {if condition="$server_id == 15 "}
+          <li onClick="location='http://www.az-cms.com/lists/96.html';" class="playbtn">立即去一键开通网站</li>
+          {elseif condition="$server_id == 21"/}
+          <li onClick="location='{:url('wxcenter/impower')}';" class="playbtn">立即去一键扫码接入</li>
+          {/if}
+        </ul>
+    </div>
+</div>
+<script>
+$(document).ready(function(e){
+	/*删除*/
+	$(".del").click(function(){
+		var id = $(this).attr('id');
+		alertBox('站点删除将无法恢复，确认删除？','{:url("base/sitedel")}?site_id='+id,'温馨提示：','true');
+	})
+});
+</script>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

@@ -1,0 +1,75 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">拓扑管理</div>
+            <div class="rig">
+            	<a href="{:url('web/system/treeedit')}?server_id={$id}"><img src="__IMAGE__/ico_white/square_add.png" />添加节点</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />节点地图
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="line">
+                	<span>拓扑类型：</span>
+                	<select name="type">
+                    	<optgroup label="中控">
+                    	<option value="0">系统管理</option>
+                        </optgroup>
+                        {notempty name="server"}
+                        <optgroup label="应用站点">
+                        {volist name="server" id="vo"}
+                        <option value="{$vo.id}" {if condition='$vo.id == $id '}selected{/if}>{$vo.name}</option>
+                        {/volist}
+                        </optgroup>
+                        {/notempty}
+                    </select>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="50%" class="first">标题</th>
+                        <th width="10%">状态</th>
+                        <th width="40%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="4" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td class="first">{$vo.name}</td>
+                        <td class="des">{$vo.status}</td>
+                        <td class="mark">
+                       		{if condition='$vo.path_count == 1 '}<a href="{:url('web/system/treeedit')}?server_id={$id}&pid={$vo.id}" class="add"><img src="__IMAGE__/ico_white/circle_plus.png" />子节点</a>{/if}
+                            <a href="{:url('web/system/treeedit')}?id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />编辑</a>
+                            <a href="{:url('web/system/treedel')}?id={$vo.id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除</a>
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					$("select").change(function(){
+						location = '?id='+$(this).val();
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

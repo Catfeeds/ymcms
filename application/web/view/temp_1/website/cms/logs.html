@@ -1,0 +1,96 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                    <div class="timespace">
+                    <form action="" method="post">
+                		从：<input name="timestart" type="text" value="{notempty name='timestart'}{$timestart}{/notempty}" data-field="date" readonly> 
+                        到  <input name="timeend" type="text" value="{notempty name='timeend'}{$timeend}{/notempty}" data-field="date" readonly>
+                        <button type="submit">查找</button>                                      
+                    </form>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="20%" class="first">行为</th>
+                        <th width="10%">帐户</th>
+                        <th width="10%">IP</th>
+                        <th width="10%">地点</th>
+                        <th width="10%">操作系统</th>
+                        <th width="15%">游览器</th>
+                        <th width="10%">分辨率</th>
+                        <th width="15%">时间</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="7" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td class="first">{$vo.msg.name}</td>
+                        <td class="des">{$vo.name}</td>
+                        <td class="des">{$vo.client.ip}</td>
+                        <td class="des">{$vo.client.city.address}</td>
+                        <td class="des">{$vo.client.systems}</td>
+                        <td class="des">{$vo.client.browser}</td>
+                        <td class="des">{$vo.client.screen}</td>
+                        <td class="des">{$vo.time}</td>
+                      </tr>
+                      {/volist}
+                      {/empty}                                                                                                     
+                    </tbody>
+                </table>
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*删除*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认删除？','{:url("web/website.cms/blockdel")}?id='+admin_id,'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!-- 时间选择器 -->
+<div id="dtBox"></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#dtBox").DateTimePicker({
+            dateFormat: "dd-MMM-yyyy"
+        });
+    });
+</script>
+<script type="text/javascript" src="__JS__/DateTimePicker.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/DateTimePicker.css" />
+<!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="__CSS__/DateTimePicker-ltie9.css" />
+    <script type="text/javascript" src="__JS__/DateTimePicker-ltie9.js"></script>
+<![endif]-->
+<!--主体内容 end-->
+{include file="$temp_footer" /}

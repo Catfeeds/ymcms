@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>登录</title>
+		<link rel="stylesheet" href="css/index.css"> 	
+		<!--[if IE]>
+		<script src="https://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+		<![endif]-->	
+	</head>
+	<body>
+		<div id="large-header" class="large-header">
+			<canvas id="demo-canvas" style="margin: 0;padding: 0;"></canvas>
+			<div class="login">
+				<img class="login-img" src="img/t-img.jpg" />
+				<p class="login-t">快莱人后台管理系统</p>
+				<div class="input-box">
+					<img src="img/user-img.png" />
+					<input type="text" placeholder="用户名"/>
+				</div>
+				<div class="input-box">
+					<img src="img/passwordr-img.png" />
+					<input type="password" placeholder="密码"/>
+				</div>
+				<button type="button">登录</button>
+			</div>
+			<div  class="index-zc">技术支持：<a target="view_window" href="http://www.hnym.cn/">湖南云盟科技有限公司</a></div>
+		</div>
+		<script type="text/javascript" src="js/index.js" ></script>
+		<script type="text/javascript">
+			//调用
+			window.onload = function(){
+				width = window.innerWidth;
+	        	height = window.innerHeight;
+				var dotline = new Dotline({
+					dom:'demo-canvas',
+					cw: width,
+					ch:height,
+					ds:80,
+					r:1,
+					dis:120
+				}).start();
+			}
+		</script>
+	</body>
+</html>

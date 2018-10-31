@@ -1,0 +1,106 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+                <a href="{:url('web/expert/lists')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                    	时间从<input type="text" name="t_start" id="t_start" class="other" value="{notempty name='t_start'}{$t_start}{/notempty}" placeholder="请选择时间.." />
+                        至<input type="text" name="t_end" id="t_end" class="other" value="{notempty name='t_end'}{$t_end}{/notempty}" placeholder="请选择时间.." />                     
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的专家id或聊天内容.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="10%" class="first">医生ID</th>
+                        <th width="15%">医生名称</th> 
+                        <th width="20%">最近聊天内容</th>
+                        <th width="10%">最近时间</th>                     
+                        <th width="30%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="5" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td>{$vo.user_to_id}</td>
+                        <td class="pictex">{notempty name="vo.picture"}<img src="{$vo.picture}" />{$vo.nickname}{else}{$imageempty}{/notempty}</td>
+                        <td style="text-align:left;">{notempty name="vo.chat.content"}{$vo.chat.content}{else /}暂无文本内容..{/notempty}</td>
+                        <td class="des">{notempty name="vo.chat.edittime"}{$vo.chat.edittime|date="Y-m-d H:i:s",###}{else /}暂无..{/notempty}</td>
+                        <td class="mark">
+                        	<a href="{:url('web/expert/chat_doctor_list')}?expert_id={$id}&doctor_id={$vo.user_to_id}" class="zxzj"><img src="__IMAGE__/ico_white/speech_4.png" />查看聊天记录</a>
+                            <a href="javascript:;" id="{$vo.user_to_id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除与该医生的所有聊天</a>
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}                                                                           
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						var t_start = $('#t_start').val();
+						var t_end = $('#t_end').val();					
+						location = "?t_start="+t_start+"&t_end="+t_end+"&id={$id}&limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						var t_start = $('#t_start').val();
+						var t_end = $('#t_end').val();					
+						location = "?t_start="+t_start+"&t_end="+t_end+"&id={$id}&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*删除*/
+					$(".del").click(function(){
+						var doctor_id = $(this).attr('id');
+						alertBox('确认删除？',"{:url('web/expert/chat_doctordel')}?doctor_id="+doctor_id+"&expert_id={$id}",'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!-- 时间选择器 -->
+<link rel="stylesheet" type="text/css" href="__CSS__/jquery.datetimepicker.css" />
+<script type="text/javascript" src="__JS__/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript">
+	$.datetimepicker.setLocale('ch');
+	$('#t_start').datetimepicker({});
+	$('#t_end').datetimepicker({});
+</script>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

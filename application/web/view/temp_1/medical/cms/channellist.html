@@ -1,0 +1,94 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.cms/channeledit')}"><img src="__IMAGE__/ico_white/square_add.png" />专题频道</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的内容.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="10%" class="first">频道ID</th>
+                        <th width="40%">标题</th>
+                        <th width="10%">状态</th>
+                        <th width="40%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="4" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td class="first" style="text-align:center;">{$vo.id}</td>
+                        <td>{$vo.name}</td>
+                        <td class="des">{$vo.status}</td>
+                        <td class="mark">
+                        {if condition='$vo.type != 1 '}
+                            <a href="{:url('web/medical.cms/channeledit')}?id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />编辑</a>
+                            <a href="javascript:;" id="{$vo.id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除</a>
+                        {else/}
+                        	系统频道，不允许操作
+                        {/if}
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}                                                                           
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*删除*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认删除？',"{:url('web/medical.cms/channeldel')}?id="+admin_id,'温馨提示：','true');
+					})
+                });
+				</script>                
+            </div>
+            <!--列表 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

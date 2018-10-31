@@ -1,0 +1,47 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="keywords" content="{$keywords}">
+    <meta name="description" content="{$description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{$site.ico}" />
+    <script src="__JS__/public.js"></script>
+	<!--[if IE]>
+		<script src="__STATIC__/html/h5map/js/html5.js"></script>
+	<![endif]-->     	
+</head>
+<body>
+<!--头部 start-->
+<div id="header">
+	<div class="lef">
+    	<div class="nam"><img src="{$site.picture}" alt="" /></div>
+    </div>
+    <div class="rig">
+        <div class="con">
+    		<div class="des"><img src="__IMAGE__/ico_white/volume_3.png" />亲爱的{$group_name}{$user_name}，欢迎回来{$site.name}..</div>
+			<div class="out">
+                <!-- <a href="{:url('base/server')}"><img src="__IMAGE__/ico_white/dropbox.png" />应用中心</a>
+                {if condition="$site.server_id == 21 "}
+                {/* 微信开发系统 */ }
+                <a href="{:url('base/site')}?id={$site.server_id}"><img src="__IMAGE__/ico_white/list.png" />我的公众帐户</a>
+				{else /}
+                {/* CMS内容管理系统 */ }
+                <a href="{:url('base/site')}?id={$site.server_id}"><img src="__IMAGE__/ico_white/list.png" />站点列表</a>
+				{/if} -->
+            	<a href="{:url('base/login_out_on')}"><img src="__IMAGE__/ico_white/circle_right.png" />安全退出</a>
+            </div>
+        </div>  
+        <div class="bread">
+            <a href="{:url('center/index')}"><img src="__IMAGE__/ico_black/home.png" />管理首页</a>
+            {notempty name="bread"}
+            {volist name="bread" id="vo"}
+             > <a href="{$vo.url}">{$vo.name}</a>
+            {/volist}
+            {/notempty}
+            &nbsp;&nbsp;
+        </div>
+    </div>
+</div>
+<!--头部 end-->

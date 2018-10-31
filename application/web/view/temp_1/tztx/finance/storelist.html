@@ -1,0 +1,117 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+    {include file="$temp_aside" /}
+    <div id="content">
+        <div class="title">
+            <div class="box">
+                <div class="lef">{$title}</div>
+                <div class="rig">
+                    <a href="javascript:;" class="excel"><img src="__IMAGE__/ico_white/square_add.png" />导出</a>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+            <!--列表 start-->
+            <div class="list">
+                <div class="serchbox">
+                    <div style="display: block;float: left;width: 10%;">
+                        每页
+                        <select name="limit" id="limit">
+                            {notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                            <option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+
+                    
+                    <div style="display: block;float: left;width: 35%;">
+                        <input id="scope" type="text" readonly="readonly" style="width: 80%" name="scope" value="{notempty name='scope'}{$scope}{/notempty}" /><span  style="width: 19%;line-height: 35px;height: 34px;text-align: center;background: #62A539;color: #fff;border-radius: 0px 4px 4px 0px;display: inline-block;cursor: pointer;">时间范围</span>
+                    </div>
+                    <div style="display: block;float: right;width: 40%;text-align: right;">
+                        <input style="width: 80%" type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的门店名.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+                <table border="0" cellpadding="5" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th width="15%" class="first">门店名</th>
+                        <th width="10%">门店log</th>
+                        <th width="15%">门店地址</th>
+                        <th width="5%">状态</th>
+                        <th width="10%">开店时间</th>
+                        <th width="5%">上月订单数量</th>
+                        <th width="5%">上月订单金额</th>
+                        <th width="5%">总订单数量</th>
+                        <th width="5%">总订单金额</th>
+                        <th width="10%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {empty name="list"}
+                    <tr><td colspan="7" class="empty">暂无相关数据</td></tr>
+                    {else/}
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td >{$vo.nickname}</td>
+                        <td class="des">
+                    {notempty name="vo.picture"}<img src="{$vo.picture}" />{else /}{$imageempty}{/notempty}
+                        </td>
+                        <td class="des">{$vo.province}{$vo.city}{$vo.area}{$vo.address}</td>
+                        <td class="des">{$vo.status}</td>
+                        <td class="des">{$vo.addtime|date="Y-m-d H:i:s",###}</td>
+                        <td class="des">{$vo.number}</td>
+                        <td class="des">￥{empty name="vo.Money"}0{else/}{$vo.Money}{/empty}</td>
+                        <td class="des">{$vo.number_all}</td>
+                        <td class="des">￥{empty name="vo.Money_all"}0{else/}{$vo.Money_all}{/empty}</td>
+                        <td class="mark">
+                            <a href="{:url('web/tztx.finance/storelistdetail')}?id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />详情</a>
+                        </td>
+
+                    </tr>
+                    {/volist}
+                    {/empty}
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+                    $(document).ready(function(e){
+                        /*每页条数*/
+                        $("#limit").change(function(){
+                            location = "?limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}"+"&scope="+$("#scope").val();
+                        })
+                        /*搜索*/
+                        $(".search_btn").click(function(){
+                            location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val()+"&scope="+$("#scope").val();
+                        })
+                         /*导出*/
+                        $(".excel").click(function(){
+                            location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val()+"&scope="+$("#scope").val()+"&excel=1";
+                        })
+                    });
+                </script>
+            </div>
+            <!--列表 end-->
+        </div>
+        <script type="text/javascript" src="__STATIC__/html/js/laydate.js"></script><!-- 改成你的路径 -->
+        <script>
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#scope'
+                ,type: 'datetime'
+                ,range: true
+            });
+        </script>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

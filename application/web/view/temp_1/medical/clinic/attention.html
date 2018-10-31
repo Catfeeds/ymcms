@@ -1,0 +1,110 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.clinic/attentionedit')}?clinic_id={$clinic_id}"><img src="__IMAGE__/ico_white/square_add.png" />添加关注</a>
+                <a href="{:url('web/medical.clinic/lists')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+                <span class="rig">共 <b>{$list_total_count}</b> 条</span>
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                    	时间从<input type="text" name="t_start" id="t_start" class="other" value="{notempty name='t_start'}{$t_start}{/notempty}" placeholder="请选择时间.." />
+                        至<input type="text" name="t_end" id="t_end" class="other" value="{notempty name='t_end'}{$t_end}{/notempty}" placeholder="请选择时间.." />                 
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的用户ID.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="10%">用户ID</th>
+                        <th width="25%">用户信息</th>
+                        <th width="10%">状态</th>
+                        <th width="15%">更新时间</th>
+                        <th width="20%">所属诊所</th>
+                        <th width="20%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="6" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td>{$vo.user_id}</td>
+                        <td class="pictex">{notempty name="vo.user_picture"}<img src="{$vo.user_picture}" />{$vo.user_nickname}{else}不存在{/notempty}</td>
+                        <td class="des">{$vo.status}</td>
+                        <td class="des">{$vo.edittime|date="Y/m/d H:i:s",###}</td>
+                        <td class="des">{$vo.clinic_name}</td>
+                        <td class="mark">
+                            <a href="{:url('web/medical.clinic/attentionedit')}?id={$vo.id}&clinic_id={$clinic_id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />编辑</a>
+                            <a href="javascript:;" id="{$vo.id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除</a>
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						var t_start = $('#t_start').val();
+						var t_end = $('#t_end').val();
+						location = "?t_start="+t_start+"&t_end="+t_end+"&clinic_id={$clinic_id}&limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						var t_start = $('#t_start').val();
+						var t_end = $('#t_end').val();						
+						location = "?t_start="+t_start+"&t_end="+t_end+"&clinic_id={$clinic_id}&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*删除*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认删除？',"{:url('web/medical.clinic/attentiondel')}?id="+admin_id,'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!-- 时间选择器 -->
+<link rel="stylesheet" type="text/css" href="__CSS__/jquery.datetimepicker.css" />
+<script type="text/javascript" src="__JS__/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript">
+	$.datetimepicker.setLocale('ch');
+	$('#t_start').datetimepicker({});
+	$('#t_end').datetimepicker({});
+</script>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

@@ -1,0 +1,135 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/user/subscribe')}?id={$user_id}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>
+                    <li>
+                    	<div class="lef"><span class="nam">预约人：</span></div>
+                        <div class="rig">
+                        	{notempty name='content.user_nickname'}{$content.user_nickname}{/notempty}
+                        	<input type="hidden" name="user_id" value="{notempty name='content'}{$content.user_id}{/notempty}" />
+                        </div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">预约医生：</span></div>
+                        <div class="rig">
+                        	{notempty name='content.doctor_nickname'}{$content.doctor_nickname}{/notempty}
+                        	<input type="hidden" name="user_to_id" value="{notempty name='content'}{$content.user_to_id}{/notempty}" />
+                        </div>                    </li> 
+                    <li>
+                    	<div class="lef"><span class="nam">姓名：</span></div>
+                        <div class="rig"><input type="text" name="name" value="{notempty name='content'}{$content.name}{/notempty}" /></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">电话：</span></div>
+                        <div class="rig"><input type="text" name="tel" value="{notempty name='content'}{$content.tel}{/notempty}" /></div>
+                    </li>                     
+                	<li>
+                    	<div class="lef"><span class="nam">性别：</span></div>
+                        <div class="rig">
+                        	<label><input type="radio" {notempty name='content'}{if condition='$content.sex == 1 '}checked{/if}{else/}checked{/notempty} name="sex" value="1" />男</label>
+                            <label><input type="radio" {notempty name='content'}{if condition='$content.sex == 0 '}checked{/if}{/notempty} name="sex" value="0" />女</label>
+                        </div>
+                    </li> 
+                    <li>
+                    	<div class="lef"><span class="nam">就诊时间：</span></div>
+                        <div class="rig"><input type="text" name="time" id="t_start" value="{notempty name='content'}{$content.time}{/notempty}" /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">
+                            <select name="status" id="status">
+                                <option value="1" {notempty name='content.status'}{if condition="$content.status == 1 "}selected{/if}{/notempty}>预约申请中</option>
+                                <option value="2" {notempty name='content.status'}{if condition="$content.status == 2 "}selected{/if}{/notempty}>预约成功</option>
+                                <option value="3" {notempty name='content.status'}{if condition="$content.status == 3 "}selected{/if}{/notempty}>预约被驳回</option>
+                                <option value="4" {notempty name='content.status'}{if condition="$content.status == 4 "}selected{/if}{/notempty}>预约取消</option>
+                            </select>
+                        </div>
+                    </li>                                                                                                                                                        
+                	<li>
+                    	<div class="lef"><span class="nam">原因：</span></div>
+                        <div class="rig">
+                        	<div class="inpcon">
+                            <!-- 加载编辑器的容器 -->
+							<script id="container" name="content" type="text/plain">{notempty name='content'}{$content.content}{/notempty}</script>
+							<script type="text/javascript">
+							$(document).ready(function(e){
+                                //实例化编辑器
+                                var ue = UE.getEditor('container');									
+                            });
+                            </script>                  
+                            </div>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">备忘录：</span></div>
+                        <div class="rig">
+                        	<div class="inpcon">
+                            <!-- 加载编辑器的容器 -->
+							<script id="container2" name="memo" type="text/plain">{notempty name='content'}{$content.memo}{/notempty}</script>
+							<script type="text/javascript">
+							$(document).ready(function(e){
+                                //实例化编辑器
+                                var ue = UE.getEditor('container2');									
+                            });
+                            </script>                  
+                            </div>
+                        </div>
+                    </li>   
+                    {notempty name='content'}
+                    <li>
+                    	<div class="lef"><span class="nam">预约时间：</span></div>
+                        <div class="rig">{$content.addtime|date="Y-m-d H:i:s",###}</div>
+                    </li>  
+                    {/notempty}                                                       	
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>					
+				$(document).ready(function(e){
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();						
+					})
+                });
+				</script>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!-- 时间选择器 -->
+<link rel="stylesheet" type="text/css" href="__CSS__/jquery.datetimepicker.css" />
+<script type="text/javascript" src="__JS__/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript">
+	$.datetimepicker.setLocale('ch');
+	$('#t_start').datetimepicker({});
+</script>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

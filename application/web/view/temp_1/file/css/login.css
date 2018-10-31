@@ -1,0 +1,41 @@
+/*登录页面*/
+*:focus{outline:none;}
+body{padding:0px;maring:0px;background:url(../image/login_bg2.jpg) no-repeat center center;font-family:'微软雅黑';}
+.login{width:60%;height:400px;position:absolute;left:20%;top:40%;margin-top:-150px;background:url(../image/op5.png) repeat;box-shadow:0px 0px 10px #ccc;border-radius:8px;}
+.login span{color:#fff;letter-spacing:3px;font-size:30px;text-shadow:1px 1px 5px #666;line-height:60px;padding-top:50px;text-align:center;display:block;}
+.login input{margin:15px auto 0px;width:50%;height:46px;line-height:46px;padding:8px;background:#fff;border:solid 1px #fff;display:block;box-shadow:0px 0px 5px #ccc;border-radius:5px;font-size:16px;}
+.login button{margin:25px auto 0px;width:50%;height:56px;padding:8px;background:#02d6c0;border:none;display:block;color:#fff;box-shadow:0px 0px 5px #ccc;font-weight:lighter;font-size:20px;border-radius:3px;cursor:pointer;}
+.wap .login input,.wap .login button{width:80%;}
+/*多应用*/
+.server{width:1100px;margin:50px auto;background:url(../image/op5.png) repeat;box-shadow:0px 0px 10px #333;min-height:700px;padding:50px;text-shadow:1px 1px 5px #666;}
+.server .title{font-size:18px;display:block;clear:both;line-height:20px;padding:0px 0px 15px 0px;border-bottom:solid 1px 
+#e1e1e1;color:#fff; position:relative;margin:0px;}
+.server .title img{width:18px;margin:-3px 5px 0px 0px;vertical-align: middle;}
+.server .title a{float:right;margin-left:10px;display:block;width:80px;height:30px;line-height:30px;text-align:center;border:solid 1px #ccc;border-radius:5px;font-size:12px;color:#ccc;cursor:pointer;text-decoration:none;}
+.server .title a:hover{border-color:#fff;color:#fff;}
+.server .box{display:block;overflow:hidden;clear:both;}
+.server .box .tit{color:#333;font-size:14px;padding:10px;margin:20px 0px 10px;overflow:hidden;clear:both;border-radius:5px;background:#f1f1f1; text-shadow:none;}
+.server .box .tit img{width:14px;margin:-2px 5px 0px 0px;vertical-align: middle;}
+.server .box ul{overflow:hidden;clear:both;margin:0;padding:0;}
+.server .serlis li{overflow:hidden;width:25%;float:left;padding:10px 0px;}
+.server .serlis li a{padding:15px 0px;display:block;overflow:hidden;clear:both;text-decoration:none;text-align:center;border-radius:5px;background:green;box-shadow:1px 1px 5px #666;width:90%;}
+.server .serlis li a:hover{opacity:0.8;}
+.server .serlis li span{display:block;overflow:hidden;clear:both;}
+.server .serlis li .img img{max-width:80%;width:64px;height:64px;}
+.server .serlis li .nam{color:#fff;font-size:13px;padding-top:5px;line-height:20px;height:20px;overflow:hidden;}
+.server .serlis li .des{color:#f1f1f1;font-size:12px;padding:5px 10px;line-height:20px;height:40px;overflow:hidden;text-align:left;}
+.playbtn{background:green !important;color:#fff;text-align:center;cursor:pointer;}
+/*多站点*/
+.server .sitlis li{display:block;overflow:hidden;clear:both;background:#ccc;border-radius:5px;margin-bottom:10px;padding:20px; box-shadow:1px 1px 5px #999;}
+.server .sitlis li span{display:block;float:left;width:33%;text-align:center;text-shadow:none;}
+.server .sitlis li .nam{text-align:left;}
+.server .sitlis li .nam,.server .sitlis li .sta{padding:8px 0px;}
+.server .sitlis li .nam img{vertical-align:middle;margin:-2px 5px 0px 0px;width:32px;height:32px;}
+.server .sitlis li .mar{float:right;}
+.server .sitlis li .mar a{ display:inline-block;float:right;padding:10px;border:solid 1px #999;border-radius:3px;margin:0px 5px;color:#333;text-decoration:none;}
+.server .sitlis li .mar a img{width:24px;vertical-align:middle;margin:-2 5px 0px 0px;}
+.server .sitlis li .mar .edit{border:solid 1px #ff4500;background:#ff4500;color:#fff;}
+.server .sitlis li .mar .edit:hover{opacity:0.8;}
+.server .sitlis li .mar .del img{opacity:0.8;}
+.server .sitlis li .mar .del:hover img{opacity:1;}
+.server .sitlis li .mar .del:hover{color:#000;border-color:#000;}

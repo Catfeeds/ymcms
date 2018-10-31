@@ -1,0 +1,138 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.clinic/edit')}"><img src="__IMAGE__/ico_white/square_add.png" />添加诊所</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+                <span class="rig">共 <b>{$list_total_count}</b> 条</span>
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                    	<!--
+                    	<select name="province" id="province">
+                        	<option value="0">所有省份</option>
+                            {notempty name="province"}
+                            {volist name="province" id="vo"}
+                            <option value="{$vo.id}" {notempty name='province_id'}{if condition='$province_id == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                            {/volist}
+                            {/notempty}
+                        </select>
+                    	<select name="city" id="city">
+                        	<option value="0">所有城市</option>
+                            {notempty name="city"}
+                            {volist name="city" id="vo"}
+                            <option  value="{$vo.id}" {notempty name='city_id'}{if condition='$city_id == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                            {/volist}
+                            {/notempty}
+                        </select>
+                    	<select name="area" id="area">
+                        	<option value="0">所有区/县</option>
+                            {notempty name="area"}
+                            {volist name="area" id="vo"}
+                            <option  value="{$vo.id}" {notempty name='area_id'}{if condition='$area_id == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                            {/volist}
+                            {/notempty}
+                        </select>                                                
+                        <script>
+						$(document).ready(function(e) {			
+                            $('#province').change(function(){
+								location = "?province="+$(this).val()+"&city=0&area=0&search={notempty name='search'}{$search}{/notempty}&limit={notempty name='limit'}{$limit}{/notempty}";
+							})
+                            $('#city').change(function(){
+								location = "?province={notempty name='province_id'}{$province_id}{/notempty}&city="+$(this).val()+"&area=0&search={notempty name='search'}{$search}{/notempty}&limit={notempty name='limit'}{$limit}{/notempty}";
+							})
+                            $('#area').change(function(){
+								location = "?province={notempty name='province_id'}{$province_id}{/notempty}&city={notempty name='city_id'}{$city_id}{/notempty}&area="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}&limit={notempty name='limit'}{$limit}{/notempty}";
+							})														
+                        });
+						</script> 
+                        -->                   
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的诊所名称或简介.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="16%" class="first">名称</th>
+                        <th width="5%">省份</th>
+                        <th width="5%">城市</th>
+                        <th width="8%">区/县</th>
+                        <th width="66%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="5" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td class="first">{$vo.name}</td>
+                        <td class="des">{$vo.province}</td>
+                        <td class="des">{$vo.city}</td>
+                        <td class="des">{$vo.area}</td>
+                        <td class="mark">
+                        	<a href="{:url('web/medical.clinic/doctor')}?clinic_id={$vo.id}" class="doct"><img src="__IMAGE__/ico_white/calendar_add.png" />医生</a>
+                            <a href="{:url('web/medical.clinic/product')}?clinic_id={$vo.id}" class="product"><img src="__IMAGE__/ico_white/dropbox.png" />产品库</a>
+                            <a href="{:url('web/medical.clinic/order_out')}?clinic_id={$vo.id}" class="order_out"><img src="__IMAGE__/ico_white/inbox_out.png" />送药订单</a>
+                            <a href="{:url('web/medical.clinic/order_in')}?clinic_id={$vo.id}" class="order_in"><img src="__IMAGE__/ico_white/inbox_in.png" />进药订单</a>
+                            <a href="{:url('web/medical.clinic/attention')}?clinic_id={$vo.id}" class="fans"><img src="__IMAGE__/ico_white/heart.png" />关注</a>
+                            <a href="{:url('web/medical.clinic/memo')}?clinic_id={$vo.id}" class="book"><img src="__IMAGE__/ico_white/notepad.png" />备忘录</a>
+                            <a href="{:url('web/medical.clinic/edit')}?id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />编辑</a>
+                            <a href="javascript:;" id="{$vo.id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除</a>
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?province={notempty name='province_id'}{$province_id}{/notempty}&city={notempty name='city_id'}{$city_id}{/notempty}&area={notempty name='area_id'}{$area_id}{/notempty}&limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?province={notempty name='province_id'}{$province_id}{/notempty}&city={notempty name='city_id'}{$city_id}{/notempty}&area={notempty name='area_id'}{$area_id}{/notempty}&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*删除*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认删除？',"{:url('web/medical.clinic/del')}?id="+admin_id,'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

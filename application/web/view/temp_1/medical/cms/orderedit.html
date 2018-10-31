@@ -1,0 +1,108 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.cms/orderlist')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">编号：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.no}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">总价：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.total_money}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">价格：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.price}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">运费：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.freight}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">收货人：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.receiver}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">电话：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.tel}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">身份证号码：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.identity}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">州：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.state}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">国：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.country}{/notempty}</div>
+                    </li>
+                 	<li>
+                    	<div class="lef"><span class="nam">省：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.province}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">市：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.city}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">区：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.area}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">地址：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.address}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">留言：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.message}{/notempty}</div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.status}{/notempty}</div>
+                    </li>
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				$(document).ready(function(e){
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();
+					})
+                });
+				</script>
+              <form>
+            </div>
+            <!--内容 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

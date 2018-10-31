@@ -1,0 +1,129 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.clinic/order_in')}?clinic_id={$clinic_id}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section" style="min-height:100px;">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />订单信息
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+				<ul>    
+                	<li>
+                    	<div class="lef"><span class="nam">订单类型：</span></div>
+                        <div class="rig">{notempty name='content'}{if condition="$content.type == 2 "}进药订单{elseif condition="$content.type == 1 "/}送药订单{/if}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">订单编号：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.no}{/notempty}</div>
+                    </li> 
+                	<li>
+                    	<div class="lef"><span class="nam">订单标题：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.title}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">订单总价：</span></div>
+                        <div class="rig">{notempty name='content'}￥<b>{$content.total_money}</b>{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">订单运费：</span></div>
+                        <div class="rig">{notempty name='content'}￥{$content.freight}{/notempty}</div>
+                    </li>                    
+                	<li>
+                    	<div class="lef"><span class="nam">订单状态：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.status}{/notempty}</div>
+                    </li>                    
+                	<li>
+                    	<div class="lef"><span class="nam">下单时间：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.addtime|date="Y/m/d H:i:s",###}{/notempty}</div>
+                    </li>
+                </ul>
+            </div>          
+            <!--内容 end-->
+        </div> 
+ 		<div class="section" style="min-height:100px;">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />商品信息
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="70%" class="first">商品名称</th>
+                        <th width="15%">单价</th>
+                        <th width="15%">数量</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="goods"}
+					  <tr><td colspan="3" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="goods" id="vo"}
+                      <tr>
+                    	<td class="goods">{notempty name='vo.picture'}<img src="{$vo.picture}" />{/notempty}{notempty name='vo.name'}{$vo.name}{else /}失效商品..{/notempty}</td>
+                        <td class="des">￥<b>{$vo.price}</b></td>
+                        <td class="des"><b>{$vo.number}</b></td>
+                      </tr>
+                      {/volist}
+                      {/empty}
+                    </tbody>
+                </table>
+            </div>
+            <!--列表 end-->
+        </div>
+        <div class="section" style="min-height:100px;">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/map.png" />收货地址
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+				<ul>    
+                	<li>
+                    	<div class="lef"><span class="nam">收货人：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.receiver}{/notempty}</div>
+                    </li> 
+                	<li>
+                    	<div class="lef"><span class="nam">手机号：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.tel}{/notempty}</div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">详细地址：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.address}{/notempty}</div>
+                    </li>
+                </ul>
+            </div>          
+            <!--内容 end-->
+        </div> 
+        {notempty name='content.status_leng'}
+        <div class="section" style="min-height:100px;">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/equalizer.png" />订单处理进度
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+				<ul>    
+                    {volist name="content.status_leng" id="vo"}
+                	<li>
+                    	<div class="lef"><span class="nam">{notempty name='vo.time'}{$vo.time|date="Y/m/d H:i:s",###}{/notempty}：</span></div>
+                        <div class="rig">{notempty name='vo.msg'}{$vo.msg}{/notempty}</div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>  
+            <!--内容 end-->
+        </div> 
+        {/notempty}                                      
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

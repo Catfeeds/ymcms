@@ -1,0 +1,131 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/system/appversionlist')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">版本号：</span></div>
+                        <div class="rig"><input type="text" name="version" value="{notempty name='content'}{$content.version}{/notempty}" placeholder="请输入版本号，如1.0.1" required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">app类型：</span></div>
+                        <div class="rig">
+                        	<select name="apptype">
+                            	<option {notempty name='content'}{if condition="$content.apptype=='android' "}selected{/if}{/notempty}>android</option>
+                            	<option {notempty name='content'}{if condition="$content.apptype=='ios' "}selected{/if}{/notempty}>ios</option>
+                            </select>                        
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">终端类型：</span></div>
+                        <div class="rig">
+                        	<select name="sitetype">
+                            	<option value="1" {notempty name='content'}{if condition="$content.sitetype==1 "}selected{/if}{/notempty}>用户端</option>
+                            	<option value="2" {notempty name='content'}{if condition="$content.sitetype==2 "}selected{/if}{/notempty}>医生端</option>
+                                <option value="3" {notempty name='content'}{if condition="$content.sitetype==3 "}selected{/if}{/notempty}>专家端</option>
+                            </select>                        
+                        </div>
+                    </li>                    
+                	<li>
+                    	<div class="lef"><span class="nam">强制升级：</span></div>
+                        <div class="rig">
+                        	<select name="is_force">
+                            	<option value="0" {notempty name='content'}{if condition="$content.is_force==0 "}selected{/if}{/notempty}>否</option>
+                            	<option value="1" {notempty name='content'}{if condition="$content.is_force==1 "}selected{/if}{/notempty}>是</option>                    	
+                            </select>
+                        </div>                    
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">apk最新地址：</span></div>
+                        <div class="rig"><input type="text" name="apk_url" value="{notempty name='content'}{$content.apk_url}{/notempty}" placeholder="请输入APK最新地址.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">升级提示：</span></div>
+                        <div class="rig"><textarea name="upgrade_point" placeholder="请输入提示内容..">{notempty name='content'}{$content.upgrade_point}{/notempty}</textarea></div>
+                    </li>                    
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">
+                        	<div class="switches"><img src="" imga="__IMAGE__/switches_a.png" imgb="__IMAGE__/switches_b.png" status="{notempty name='content'}{$content.status}{else/}1{/notempty}" /><span>启用</span></div>
+                            <input id="status" type="hidden" name="status" value="{notempty name='content'}{$content.status}{else/}1{/notempty}" />
+                        </div>
+                    </li>
+                    {notempty name='content'}
+                    <li>
+                    	<div class="lef"><span class="nam">添加时间：</span></div>
+                        <div class="rig"><span class="des">{$content.addtime|date="Y-m-d H:i:s",###}</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">修改时间：</span></div>
+                        <div class="rig"><span class="des">{$content.edittime|date="Y-m-d H:i:s",###}</span></div>
+                    </li>
+                    {/notempty}                                        
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				$(document).ready(function(e){				
+                    /*状态*/
+					function changestatus(){
+						var status = $(".switches img").attr('status');
+						if(status == 1){
+							$(".switches img").attr('src',$(".switches img").attr('imgb'));
+                            $(".switches img").parent().find('span').text('启用');
+						}else{
+							$(".switches img").attr('src',$(".switches img").attr('imga'));
+                            $(".switches img").parent().find('span').text('禁用');
+						}
+					}
+					changestatus();
+					$(".switches img").click(function(){
+						if($(this).attr('status') == 1){
+							$(this).attr('status',0);
+							$(this).attr('src',$(this).attr('imga'));
+							$(this).parent().find('span').text('禁用');
+							$("#status").val(0);
+						}else{
+							$(this).attr('status',1);
+							$(this).attr('src',$(this).attr('imgb'));
+							$(this).parent().find('span').text('启用');
+							$("#status").val(1);
+						}
+						changestatus();
+					})
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();
+					})
+                });
+				</script>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>   
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

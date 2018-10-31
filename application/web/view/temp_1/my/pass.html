@@ -1,0 +1,76 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">密码：</span></div>
+                        <div class="rig"><input type="password" name="password" value="" placeholder="请输入密码.." required /></div>
+                    </li> 
+                	<li>
+                    	<div class="lef"><span class="nam">重复密码：</span></div>
+                        <div class="rig"><input type="password" name="password2" value="" placeholder="请再次输入密码.." required /></div>
+                    </li>                                                        
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>                                                        
+                </ul>              
+                <script>					
+				$(document).ready(function(e){				
+                    /*状态*/
+					function changestatus(){
+						var status = $(".switches img").attr('status');
+						if(status == 1){
+							$(".switches img").attr('src',$(".switches img").attr('imgb'));
+                            $(".switches img").parent().find('span').text('启用');
+						}else{
+							$(".switches img").attr('src',$(".switches img").attr('imga'));
+                            $(".switches img").parent().find('span').text('禁用');
+						}
+					}
+					changestatus();
+					$(".switches img").click(function(){
+						if($(this).attr('status') == 1){
+							$(this).attr('status',0);
+							$(this).attr('src',$(this).attr('imga'));
+							$(this).parent().find('span').text('禁用');
+							$("#status").val(0);
+						}else{
+							$(this).attr('status',1);
+							$(this).attr('src',$(this).attr('imgb'));
+							$(this).parent().find('span').text('启用');
+							$("#status").val(1);						
+						}
+						changestatus();
+					})
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();						
+					})
+                });
+				</script>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

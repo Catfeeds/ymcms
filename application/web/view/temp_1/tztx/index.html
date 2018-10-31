@@ -1,0 +1,136 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+	<link rel="stylesheet" type="text/css" href="__STATIC__/html/h5map/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/html/h5map/css/default.css">
+    <div id="content">
+    	<div class="index_nav">
+        	<ul>
+            	<li style="background-color:#ad1400;" onClick="location='{:url(\'web/tztx.admin/user\')}'">
+                	<p class="nam"><img src="__STATIC__/html/image/ico_white/users.png" />用户</p>
+                    <p class="des">数量：{$user_number} 名</p>
+                </li>
+            	<li style="background-color:#0079be;" onClick="location='{:url(\'web/my/adminlist\')}'">
+                	<p class="nam"><img src="__STATIC__/html/image/ico_white/calendar_add.png" />商户</p>
+                    <p class="des">数量：{$doctor_number} 名</p>
+                </li>
+            	<li style="background-color:#ad0056;" onClick="location='{:url(\'web/tztx.order/order\')}'">
+                	<p class="nam"><img src="__STATIC__/html/image/ico_white/book_2.png" />订单</p>
+                    <p class="des">数量：{$expert_number} 篇</p>
+                </li>
+            	<li style="background-color:#ad8a00;" onClick="location='{:url(\'web/tztx.shop/goodslist\')}'">
+                	<p class="nam"><img src="__STATIC__/html/image/ico_white/instagram.png" />商品</p>
+                    <p class="des">数量：{$news_number} 篇</p>
+                </li>
+        	</ul>
+        </div>
+        <div class="index_map">
+        	<ul>
+            	<li>
+                	<canvas id="chart-bar" height="500" width="500"></canvas><!--柱状图-->
+                	<p class="map_des">订单、商品五日内动态图</p>
+                </li>
+            	<li>
+                	<canvas id="chart-area" width="500" height="500"></canvas><!--环形图-->
+               		<p class="map_des">用户|商户|管理员数量比率图</p>
+                </li>
+        	</ul>
+        	<ul>
+            	<li style="width:91%;">
+                	<canvas id="chart-line" height="450" width="1000"></canvas><!--线形图-->
+                	<p class="map_des">商户|用户新入驻五日内动态图</p>
+                </li>
+            </ul>            
+        </div>
+    </div>
+ 	<script src="__STATIC__/html/h5map/js/Chart.js"></script>
+	<script>
+	/*柱状图 参数start*/
+	var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+	var barChartData = {
+		labels : ["{$week_number[5]['time']}","{$week_number[4]['time']}","{$week_number[3]['time']}","{$week_number[2]['time']}","{$week_number[1]['time']}"],
+		datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data : ["{$week_number[5]['news_number']}","{$week_number[4]['news_number']}","{$week_number[3]['news_number']}","{$week_number[2]['news_number']}","{$week_number[1]['news_number']}"]
+			},
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,0.8)",
+				highlightFill : "rgba(151,187,205,0.75)",
+				highlightStroke : "rgba(151,187,205,1)",
+				data : ["{$week_number[5]['video_number']}","{$week_number[4]['video_number']}","{$week_number[3]['video_number']}","{$week_number[2]['video_number']}","{$week_number[1]['video_number']}"]
+			}
+		]
+	}
+	/*柱状图 参数end*/
+	/*环形图 参数start*/
+	var doughnutData = [
+		{
+			value: "{$user_number}",
+			color:"#F7464A",
+			highlight: "#FF5A5E",
+			label: "用户"
+		},
+		{
+			value: "{$doctor_number}",
+			color: "#46BFBD",
+			highlight: "#5AD3D1",
+			label: "商户"
+		},
+		{
+			value: "{$goods_number}",
+			color: "#FDB45C",
+			highlight: "#FFC870",
+			label: "管理员"
+		},
+	];
+	/*环形图 参数end*/
+	/*线形图 参数start*/
+	var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+	var lineChartData = {
+		labels : ["{$week_number[5]['time']}","{$week_number[4]['time']}","{$week_number[3]['time']}","{$week_number[2]['time']}","{$week_number[1]['time']}"],
+		datasets : [
+			{
+				label: "My First dataset",
+				fillColor : "rgba(220,220,220,0.2)",
+				strokeColor : "rgba(220,220,220,1)",
+				pointColor : "rgba(220,220,220,1)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "rgba(220,220,220,1)",
+				data : ["{$week_number[5]['inorder_number']}","{$week_number[4]['inorder_number']}","{$week_number[3]['inorder_number']}","{$week_number[2]['inorder_number']}","{$week_number[1]['inorder_number']}"]
+			},
+			{
+				label: "My Second dataset",
+				fillColor : "rgba(151,187,205,0.2)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				pointHighlightFill : "#fff",
+				pointHighlightStroke : "rgba(151,187,205,1)",
+				data : ["{$week_number[5]['outorder_number']}","{$week_number[4]['outorder_number']}","{$week_number[3]['outorder_number']}","{$week_number[2]['outorder_number']}","{$week_number[1]['outorder_number']}"]
+			}
+		]
+
+	}
+	/*线形图 参数end*/
+	window.onload = function(){
+		/*柱状图 实例化*/
+		var bar = document.getElementById("chart-bar").getContext("2d");
+		window.myBar = new Chart(bar).Bar(barChartData, {responsive : true});
+		/*环形图 实例化*/
+		var area = document.getElementById("chart-area").getContext("2d");
+		window.myDoughnut = new Chart(area).Doughnut(doughnutData, {responsive : true});
+		/*线形图 实例化*/
+		var line = document.getElementById("chart-line").getContext("2d");
+		window.myLine = new Chart(line).Line(lineChartData, {responsive: true});	
+	};	
+	</script>   
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

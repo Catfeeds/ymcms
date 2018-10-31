@@ -1,0 +1,117 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+    {include file="$temp_aside" /}
+    <div id="content">
+        <div class="title">
+            <div class="box">
+                <div class="lef">{$title}</div>
+                <div class="rig">
+                    <a href="javascript:;" class="excel"><img src="__IMAGE__/ico_white/square_add.png" />导出</a>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+            <!--列表 start-->
+            <div class="list">
+                <div class="serchbox">
+                    <div class="lef">
+                        每页
+                        <select name="limit" id="limit">
+                            {notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                            <option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div style="display: block;float: left;width: 35%;">
+                        <input id="scope" type="text" readonly="readonly" style="width: 80%" name="scope" value="{notempty name='scope'}{$scope}{/notempty}" /><span  style="width: 19%;line-height: 35px;height: 34px;text-align: center;background: #62A539;color: #fff;border-radius: 0px 4px 4px 0px;display: inline-block;cursor: pointer;">注册时间</span>
+                    </div>
+                    <div  style="display: block;float: right;width: 40%;text-align: right;">
+                        <input  style="width: 80%" type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的会员名或手机号.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+                <table border="0" cellpadding="5" cellspacing="0">
+                    <thead>
+                    <!--会员头像，会员名称，注册时间，最后登录时间，所属门店，成交订单数量，消费的金额-->
+                    <tr>
+                        <th width="10%">会员名称</th>
+                        <th width="10%">注册时间</th>
+                        <th width="10%">手机号</th>
+                        <th width="10%">最后登录时间</th>
+                        <th width="10%">下级分销</th>
+                        <th width="10%">分销佣金总金额</th>
+                        <th width="10%">可提现佣金</th>
+                        <th width="10%">成交订单数量</th>
+                        <th width="10%">消费的金额</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {empty name="list"}
+                    <tr><td colspan="8" class="empty">暂无相关数据</td></tr>
+                    {else/}
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td class="des">{notempty name="vo.picture"}<img  height="40" width="40" src="{$vo.picture}" />{else/}{$imageempty}{/notempty}{$vo.nickname}</td>
+                        <td class="des">{$vo.addtime}</td>
+                        <td class="des">{$vo.phone}</td>
+                        <td class="des">{$vo.lastTime}</td>
+                        <td class="des">
+                            <p style="color: #0275d8;">一级：{$vo.one}</p>
+                            <p style="color: #0275d8;">二级：{$vo.tow}</p>
+                        </td>
+                        <td class="des">{$vo.mabycommissiontotal}</td>
+                        <td class="des">{$vo.commissiontotal}</td>
+                        <td class="des">{$vo.number}</td>
+                        <td class="des">￥{empty name="vo.Money"}0{else/}{$vo.Money}{/empty}</td>
+                    </tr>
+                    {/volist}
+                    {/empty}
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+                    $(document).ready(function(e){
+                        /*每页条数*/
+                        $("#limit").change(function(){
+                            location = "?limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}"+"&scope="+$("#scope").val();
+                        })
+                        /*搜索*/
+                        $(".search_btn").click(function(){
+                            location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val()+"&scope="+$("#scope").val();
+                        })
+                        /*导出*/
+                        $(".excel").click(function(){
+                            location = "?limit="+$(this).val()+"&search="+$("#search").val()+"&scope="+$("#scope").val()+"&excel=1";
+                        });
+                        // /*删除*/
+                        // $(".del").click(function(){
+                        //     admin_id = $(this).attr('id');
+                        //     alertBox('确认删除？',"{:url('web/pair.member/userdelete')}?id="+admin_id,'温馨提示：','true');
+                        // })
+                    });
+                </script>
+            </div>
+            <!--列表 end-->
+        </div>
+        <script type="text/javascript" src="__STATIC__/html/js/laydate.js"></script><!-- 改成你的路径 -->
+        <script>
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#scope'
+                ,type: 'datetime'
+                ,range: true
+            });
+        </script>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

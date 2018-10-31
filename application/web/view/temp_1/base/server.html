@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta name="keywords" content="{$keywords}">
+    <meta name="description" content="{$description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{$dir_site}/favicon.ico" />
+    <link rel="stylesheet" href="{$dir_temp}/file/css/login.css" />	
+</head>
+<body>
+<!--主体内容 start-->
+<div class="server">
+	<p class="title"><img src="__IMAGE__/ico_white/dropbox.png" />系统应用<a href="{:url('base/login_out_on')}">安全退出</a></p>
+    <div class="box">
+		<p class="tit"><img src="__IMAGE__/ico_black/circle_ok.png" />已开通应用</p>
+        <ul class="serlis">
+          {empty name="list"}
+          <li>暂无已开通应用...</li>
+          {else/}
+          {volist name="list" id="vo"}
+          {notempty name='vo.on'}
+            <li>
+                <a href="{:url('base/site')}?id={$vo.id}" style="background:{$vo.color};">
+                    <span class="img"><img src="{$vo.ico}" /></span>
+                    <span class="nam">{$vo.name}</span>
+                    <span class="des">{$vo.description}</span>
+                </a>
+            </li>
+          {/notempty}  
+          {/volist}
+          {/empty}
+        </ul>
+    </div>
+    <div class="box">
+		<p class="tit"><img src="__IMAGE__/ico_black/circle_plus.png" />未开通应用</p>
+        <ul class="serlis">
+          {empty name="list"}
+          <li>暂无未开通应用...</tr>
+          {else/}
+          {volist name="list" id="vo"}
+          {empty name='vo.on'}
+            <li>
+                <a href="{$vo.url}" style="background:{$vo.color};">
+                    <span class="img"><img src="{$vo.ico}" /></span>
+                    <span class="nam">{$vo.name}</span>
+                    <span class="des">{$vo.description}</span>
+                </a>
+            </li>
+          {/empty} 
+          {/volist}
+          {/empty}
+        </ul>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

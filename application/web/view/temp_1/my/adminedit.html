@@ -1,0 +1,424 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/my/adminlist')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>        
+    		<!--内容 start-->
+            <div class="info">         
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">所属管理组：</span></div>
+                        <div class="rig">
+                        	<select name="group_id">
+                            	{volist name="group" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.group_ids == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </li>               	
+	               	<li>
+                    	<div class="lef"><span class="nam">商户账号名称：</span></div>
+                        <div class="rig"><input type="text" name="name" value="{notempty name='content'}{$content.name}{/notempty}" placeholder="用户名用于登陆" required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">密码：</span></div>
+                        <div class="rig"><input type="password" name="password" value="" placeholder="请输入密码.." required /></div>
+                    </li> 
+                	<li>
+                    	<div class="lef"><span class="nam">重复密码：</span></div>
+                        <div class="rig"><input type="password" name="password2" value="" placeholder="请再次输入密码.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">昵称（店铺名称）：</span></div>
+                        <div class="rig"><input type="text" name="nickname" value="{notempty name='content'}{$content.nickname}{/notempty}" placeholder="请输入昵称.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">头像：</span></div>
+                        <div class="rig">{notempty name='content.picture'}{volist name="content.picture" id="vo"}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_{$vo.basename}" value="" /><span><img src="{$vo.filename}" class="filejson" filename="{$vo.filename}" /><b>{$vo.basename}</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>{/volist}{else/}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_2" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label></div>{/notempty}<div class="imgbox"><span class="fileadd_picture fileadd"><img src="__IMAGE__/ico_white/plus.png" />添加</span><input type="hidden" name="picture" class="fileval" value="" /></div></div>
+                    </li>
+                    <li>
+                        <div class="lef"><span class="nam">主图：</span></div>
+                        <div class="rig">{notempty name='content.ico'}{volist name="content.ico" id="vo"}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_{$vo.basename}" value="" /><span><img src="{$vo.filename}" class="filejson" filename="{$vo.filename}" /><b>{$vo.basename}</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>{/volist}{else/}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_1" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label></div>{/notempty}<div class="imgbox"><span class="fileadd_ico fileadd"><img src="__IMAGE__/ico_white/plus.png" />添加</span><input type="hidden" name="ico" class="fileval" value="" /></div></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">性别：</span></div>
+                        <div class="rig">
+                        	<label><input type="radio" {notempty name='content'}{if condition='$content.sex == 1 '}checked{/if}{else/}checked{/notempty} name="sex" value="1" />男</label>
+                            <label><input type="radio" {notempty name='content'}{if condition='$content.sex == 0 '}checked{/if}{/notempty} name="sex" value="0" />女</label>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">从事行业：</span></div>
+                        <div class="rig">
+                        	<select name="industry">
+                            	{volist name="industry" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.industry == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">出生日期：</span></div>
+                        <div class="rig muline">
+                        	<label><input type="number" min="1930" max="2020" name="year" value="{notempty name='content'}{$content.year}{/notempty}" /><span class="des">年</span></label>
+                        	<label><input type="number" min="1" max="12" name="month" value="{notempty name='content'}{$content.month}{/notempty}" /><span class="des">月</span></label>
+                            <label><input type="number" min="1" max="31" name="day" value="{notempty name='content'}{$content.day}{/notempty}" /><span class="des">日</span></label>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">身份证号码：</span></div>
+                        <div class="rig"><input type="text" name="identity" value="{notempty name='content'}{$content.identity}{/notempty}" placeholder="请输入身份证号码.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">手机号：</span></div>
+                        <div class="rig"><input type="text" name="phone" value="{notempty name='content'}{$content.phone}{/notempty}" placeholder="请输入手机号.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">邮箱地址：</span></div>
+                        <div class="rig"><input type="text" name="mail" value="{notempty name='content'}{$content.mail}{/notempty}" placeholder="请输入邮箱地址.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">qq号码：</span></div>
+                        <div class="rig"><input type="text" name="qq" value="{notempty name='content'}{$content.qq}{/notempty}" placeholder="请输入qq号码.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">微信号：</span></div>
+                        <div class="rig"><input type="text" name="wechat" value="{notempty name='content'}{$content.wechat}{/notempty}" placeholder="请输入微信号.." required /></div>
+                    </li>
+                    <!--
+                	<li>
+                    	<div class="lef"><span class="nam">大州：</span></div>
+                        <div class="rig">
+                        	<select name="state" class="state">
+                                {empty name="content.state"} 
+                                <option class="first" selected value="0">-请选择-</option>
+                                {/empty}
+                           		{notempty name="state"}
+                            	{volist name="state" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.state == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">国家：</span></div>
+                        <div class="rig">
+                        	<select name="country" class="country">
+                                {empty name="content.country"}
+                                <option class="first" selected value="0">-请选择-</option>
+                                {/empty}
+                            	{notempty name="country"}
+                            	{volist name="country" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.country == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </li>
+                    -->
+                	<li class="{empty name='content.province'}{/empty}">
+                    	<div class="lef"><span class="nam">省份：</span></div>
+                        <div class="rig">
+                        	<select name="province" class="province">
+                           		<option value="0">-请选择省份-</option>
+                            	{notempty name="province"}
+                            	{volist name="province" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.province == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </li>
+                	<li class="{empty name='content.city'}hide{/empty}">
+                    	<div class="lef"><span class="nam">市：</span></div>
+                        <div class="rig">
+                        	<select name="city" class="city">
+                            	{notempty name="city"}
+                            	{volist name="city" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.city == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </li>
+                	<li class="{empty name='content.area'}hide{/empty}">
+                    	<div class="lef"><span class="nam">区：</span></div>
+                        <div class="rig">
+                        	<select name="area" class="area">
+                            	{notempty name="area"}
+                            	{volist name="area" id="vo"}
+                            	<option value="{$vo.id}" {notempty name='content'}{if condition='$content.area == $vo.id '}selected{/if}{/notempty}>{$vo.name}</option>
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">地址：</span></div>
+                        <div class="rig"><textarea name="address" placeholder="请输入地址..">{notempty name='content'}{$content.address}{/notempty}</textarea></div>
+                    </li>
+                    <li>
+                        <div class="lef"><span class="nam">坐标：</span></div>
+                        <div class="rig">
+                            <input type="hidden" id="coords" name="coords" />                       
+                            <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script><!--百度地图的文件 -->
+                            <div class="mark_map" style="overflow:hidden;clear:both;font-size:12px;">
+                                <div> 
+                                    <p style="padding-bottom:10px;">
+                                        纬度：<input name="txtlatitude" disabled type="text" id="txtlatitude"  style="border:solid 1px #ccc;padding:5px;height:34px;line-height:34px;background:#fff;width:30%;" />
+                                        经度：<input name="txtLongitude" disabled type="text" id="txtLongitude"  style="border:solid 1px #ccc;padding:5px;height:34px;line-height:34px;background:#fff;width:30%;" />
+                                    </p>                                
+                                    <p style="padding-bottom:10px;">位置：<input id="txtarea" type="text" style="border: solid 1px #ccc;padding:5px;height:34px;line-height:34px;background:#fff;width:40%;" /><input id="areaSearch" type="button" value="搜索" style="cursor:pointer;border:none;padding:5px;height:34px;background:#333;color:#fff;width:20%;border-radius:3px;margin-left:1%;" /></p> 
+                                </div> 
+                                <div style="width:90%;height:500px;border:1px solid #ccc;" id="container_map"></div> 
+                                <div>标注点所在区域：<span id="txtAreaCode"></span></div>
+                            <div>
+                            <script type="text/javascript"> 
+                            var map = new BMap.Map("container_map"); 
+                            var defalut_lat = "{notempty name='locaiton_coords'}{$locaiton_coords.lat}{else/}28.09953{/notempty}";
+                            var defalut_lng = "{notempty name='locaiton_coords'}{$locaiton_coords.lng}{else/}112.980773{/notempty}";
+                            map.centerAndZoom(new BMap.Point(defalut_lng-0.01,defalut_lat),16); 
+                            map.addControl(new BMap.NavigationControl()); 
+                            map.addControl(new BMap.ScaleControl()); 
+                            map.addControl(new BMap.OverviewMapControl()); 
+                            map.addControl(new BMap.MapTypeControl());
+                            function addMarker(point) {  
+                                var marker = new BMap.Marker(point); 
+                                map.addOverlay(marker); 
+                                marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                            } 
+                            function geocodeSearch(pt) { 
+                                var myGeo = new BMap.Geocoder(); 
+                                myGeo.getLocation(pt, function (rs) { 
+                                var addComp = rs.addressComponents; 
+                                    document.getElementById("txtAreaCode").innerText = addComp.province + ", " + addComp.city + ", " + addComp.district; 
+                                }); 
+                            } 
+                            /*创建坐标*/
+                            document.getElementById("txtlatitude").value = defalut_lat; 
+                            document.getElementById("txtLongitude").value = defalut_lng; 
+                            document.getElementById("coords").value = defalut_lat+','+defalut_lng;
+                            map.clearOverlays(); 
+                            var pointMarker = new BMap.Point(defalut_lng,defalut_lat);//创建标注的坐标 
+                            addMarker(pointMarker);
+                            geocodeSearch(pointMarker);
+                            //搜索 
+                            document.getElementById("areaSearch").onclick = function () { 
+                                // 创建地址解析器实例 
+                                var myGeo = new BMap.Geocoder(); 
+                                var searchTxt = document.getElementById("txtarea").value; 
+                                // 将地址解析结果显示在地图上，并调整地图视野 
+                                myGeo.getPoint(searchTxt, function (point) { 
+                                    if (point) { 
+                                        map.centerAndZoom(point,16); 
+                                        document.getElementById("txtlatitude").value = point.lat; 
+                                        document.getElementById("txtLongitude").value = point.lng; 
+                                        document.getElementById("coords").value = point.lat+','+point.lng;
+                                        map.clearOverlays(); 
+                                        var pointMarker = new BMap.Point(point.lng, point.lat); 
+                                        geocodeSearch(pointMarker); 
+                                        map.addOverlay(new BMap.Marker(point)); 
+                                    }else{
+                                        alert("搜索不到结果"); 
+                                    }
+                                },"全国"); 
+                            } 
+                            map.enableScrollWheelZoom(); 
+                            map.addEventListener("click", function (e) { 
+                                document.getElementById("txtlatitude").value = e.point.lat; 
+                                document.getElementById("txtLongitude").value = e.point.lng; 
+                                document.getElementById("coords").value = e.point.lat+','+e.point.lng;
+                                map.clearOverlays(); 
+                                var pointMarker = new BMap.Point(e.point.lng, e.point.lat); // 创建标注的坐标 
+                                addMarker(pointMarker); 
+                                geocodeSearch(pointMarker); 
+                            }); 
+                            </script>
+                        </div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">
+                        	<div class="switches"><img src="" imga="__IMAGE__/switches_a.png" imgb="__IMAGE__/switches_b.png" status="{notempty name='content'}{$content.status}{else/}1{/notempty}" /><span>启用</span></div>
+                            <input id="status" type="hidden" name="status" value="{notempty name='content'}{$content.status}{else/}1{/notempty}" />
+                        </div>
+                    </li>
+                    {notempty name='content'}
+                    <li>
+                    	<div class="lef"><span class="nam">添加时间：</span></div>
+                        <div class="rig"><span class="des">{$content.addtime|date="Y-m-d H:i:s",###}</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">修改时间：</span></div>
+                        <div class="rig"><span class="des">{$content.edittime|date="Y-m-d H:i:s",###}</span></div>
+                    </li>
+                    {/notempty}
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				/*实时整理上传参数*/
+				function fileval(randclass){
+					var filejson_li = randclass.parents('li');
+					var filejson_arr = new Array();
+					filejson_li.find('.files').each(function(i){
+                        filejson_arr[i] = $(this).find('.filejson').attr('filename');
+                    });
+					filejson_li.find('.fileval').val(filejson_arr);					
+				}
+				$('.fileval').each(function(){
+                   fileval($(this));
+                });
+                /*异步上传的回调方法*/
+                function stopUpload(filename,oldname,randclass){
+					var randclass = $('.'+randclass);
+					var filesrc = ""+filename;
+					randclass.find('img').addClass('filejson').attr('src',filesrc).attr('filename',filename);
+					randclass.find('b').text(oldname);
+					fileval(randclass);
+                }
+				$(document).ready(function(e){
+					/*选择图片*/
+					function filechange(){	
+						/*选取事件*/
+						$('.filesinp').change(function(){
+							/*增加异步识别类*/
+							var mydate = new Date();
+							var randclass = 'ajax'+mydate.getTime()+parseInt(999990*Math.random());
+							$(this).parents('label').addClass(randclass);
+							/*提交表单*/
+							var inpname = $(this).attr('name');
+							$("#fileups").attr("action","{:url('system/fileups')}?inpname="+inpname+"&randclass="+randclass);
+							$("#fileups").attr("target","upload_target");
+							$("#fileups").submit();
+						})
+						/*删除*/
+						$(".del").click(function(){
+							var delfileval = $(this).parents('li').find('.fileval');
+							$(this).parent().remove();
+							fileval(delfileval);
+						})
+					}
+					filechange();
+					/*上传添加*/
+					$(".fileadd").click(function(){
+						var filesinp_num = $('.filesinp').length + 1;
+						$(this).parents('.imgbox').before('<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="fileadd_'+filesinp_num+'" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>');
+						filechange();
+					})
+                    /*状态*/
+					function changestatus(){
+						var status = $(".switches img").attr('status');
+						if(status == 1){
+							$(".switches img").attr('src',$(".switches img").attr('imgb'));
+                            $(".switches img").parent().find('span').text('启用');
+						}else{
+							$(".switches img").attr('src',$(".switches img").attr('imga'));
+                            $(".switches img").parent().find('span').text('禁用');
+						}
+					}
+					changestatus()
+					$(".switches img").click(function(){
+						if($(this).attr('status') == 1){
+							$(this).attr('status',0);
+							$(this).attr('src',$(this).attr('imga'));
+							$(this).parent().find('span').text('禁用');
+							$("#status").val(0);
+						}else{
+							$(this).attr('status',1);
+							$(this).attr('src',$(this).attr('imgb'));
+							$(this).parent().find('span').text('启用');
+							$("#status").val(1);
+						}
+						changestatus();
+					})
+					/*提交*/
+					$("#upmit").click(function(){
+                        var name = $("input[name='name']").val();
+                        if (name == "") {
+                            alert("名称不能为空");
+                            return;
+                        }
+                        var psw = $("input[name='password']").val();
+                        var psw2 = $("input[name='password2']").val();
+                        if (psw == "" || psw != psw2) {
+                            alert("密码与确认密码不一致，并且不能为空");
+                            return;
+                        }
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();
+					})
+					/*城市联动*/				
+					function changearea(c1,c2){
+						c1.change(function(){
+							/*州*/
+							$.post("{:url('system/changearea')}",{
+								id : c1.val()
+							},function(data){
+								data = eval("("+data+")");
+								if(data.status == 100){
+									c2.html(data.msg);
+									if(c1.hasClass('state')){
+										var subdom = $(".country,.province,.city,.area");
+									}else if(c1.hasClass('country')){
+										var subdom = $(".province,.city,.area");
+									}else if(c1.hasClass('province')){
+										var subdom = $(".city,.area");
+									}else if(c1.hasClass('city')){
+										var subdom = $(".area");
+									}
+									subdom.parents('li').show();
+									subdom.find('.first').remove();
+									subdom.prepend('<option class="first" selected value="0">-请选择-</option>');								
+								}else{
+									/*alertBox(data.msg);*/
+									if(c1.hasClass('state')){
+										var subdom = $(".country,.province,.city,.area");									
+									}else if(c1.hasClass('country')){
+										var subdom = $(".province,.city,.area");
+									}else if(c1.hasClass('province')){
+										var subdom = $(".city,.area");
+									}else if(c1.hasClass('city')){
+										var subdom = $(".area");
+									}
+									subdom.parents('li').hide();
+								}
+							});
+						})
+					}
+					changearea($(".state"),$(".country"));/*州*/
+					changearea($(".country"),$(".province"));/*国*/
+					changearea($(".province"),$(".city"));/*省*/
+					changearea($(".city"),$(".area"));/*市*/
+                });
+				</script>
+              <form>
+            </div>
+            <!--内容 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

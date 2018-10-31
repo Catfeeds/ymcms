@@ -1,0 +1,28 @@
+<!--菜单 开始-->
+<div id="nav">
+    <div class="info">
+    	<div class="lef">{notempty name='user.picture'}<img src="{$user.picture}" />{else/}{$imageempty}{/notempty}</div>
+        <div class="rig">
+        	<div class="name">{notempty name='user.nickname'}{$user.nickname}{else/}{$user.name}{/notempty}</div>
+            <div class="group">{$group_name}</div>
+        </div>
+    </div>
+    <ul>
+    <li><a href="{:url('center/index')}"><img src="__IMAGE__/ico_white/home.png" /><span>管理首页</span><span class="arrow"><img src="__IMAGE__/ico_arrow.png" /></span></a></li>
+    {notempty name="nav"}
+    {volist name="nav" id="vo"}
+    <li class="{notempty name='vo.on'}on{/notempty}"><a href="{empty name='vo.nav_sub'}{$vo.url}{else /}javascript:;{/empty}"><img src="{empty name='vo.ico'}__IMAGE__/ico_white/dropbox.png{else /}{$vo.ico}{/empty}" /><span>{$vo.name}</span><span class="arrow"><img src="__IMAGE__/ico_arrow.png" /></span></a>
+        {notempty name="vo.nav_sub"}
+        <ul>
+        {volist name="vo.nav_sub" id="vo2"}
+            <li class="{notempty name='vo2.on'}on{/notempty}"><a href="{$vo2.url}" target="{if condition='$vo2.target == 1 '}_blank{/if}"><img src="{empty name='vo2.ico'}__IMAGE__/ico_white/stop.png{else /}{$vo2.ico}{/empty}" /><span>{$vo2.name}</span></a></li>
+        {/volist}
+        </ul>
+        {/notempty}
+    </li>
+    {/volist}
+    {/notempty}
+    </ul>
+    <div class="copyright">Copyright © 2017.版权所有</div>
+</div>
+<!--菜单 结束-->

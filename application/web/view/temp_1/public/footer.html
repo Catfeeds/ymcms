@@ -1,0 +1,27 @@
+<!-- 编辑器 -->
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.js"></script>
+<!-- 公共脚本 -->
+<script src="{$dir_temp}/file/js/public.js"></script>
+<script>
+$(document).ready(function(){
+	/*传递分辨率信息*/
+	var winW = $(window).width();
+	var winH = $(window).height();
+	var page_screen = winW+"*"+winH;
+	$.post("{:url('web/base/page_screen')}",{
+		page_screen : page_screen
+	},function(data){
+		/*
+		data = eval("("+data+")");
+		if(data.status == 100){
+			alertBox(data.msg);
+		}else{
+			alertBox(data.msg);
+		}
+		*/
+	});	
+});
+</script>
+</body>
+</html>

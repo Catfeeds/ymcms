@@ -1,0 +1,117 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+    {include file="$temp_aside" /}
+    <div id="content">
+        <div class="title">
+            <div class="box">
+                <div class="lef">{$title}</div>
+                <div class="rig">
+                    <a href="javascript:;" class="search_btn2">导出</a>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+            <!--列表 start-->
+            <div class="list">
+                <div class="serchbox">
+                    <div class="lef" style="width: 30%">
+                        <select name="year" id="year">
+                            {volist name="years" id="y"}
+                            <option value="{$y['data']}"  {if $y['selected']}selected="selected"{/if}>{$y['data']}年</option>
+                            {/volist}
+                        </select>
+                        <select name="month" id="month">
+                        <option value=''>月份</option>
+                        {volist name="months" id="m"}
+                        <option value="{$m['data']}"  {if $m['selected']}selected="selected"{/if}>{$m['data']}月</option>
+                        {/volist}
+                    </select>
+                        <select name="day" id="day">
+                        <option value=''>日期</option>
+                    </select>
+                       <span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                    <div class="rig" style="width: 65%">
+                    </div>
+                </div>
+                <table border="0" cellpadding="5" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th width="20%" class="first">{$dataname}</th>
+                        <th width="20%">订单数量</th>
+                        <th width="20%">所占比例</th>
+                        <th width="20%">订单金额</th>
+                        <th width="20%">所占比例</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {empty name="list"}
+                    <tr><td colspan="5" class="empty">暂无相关数据</td></tr>
+                    {else/}
+                    {volist name="list" id="vo"}
+                    <tr>
+                        <td class="des">{$vo.data}</td>
+                        <td class="des">{$vo.count}</td>
+                        <td>
+                           <span style="color:#000">{empty name="vo.percent"}'' {else/}{$vo.percent}%{/empty}</span>
+                        </td>
+                        <td class="des">￥{$vo.price}</td>
+                        <td class="mark">
+                           <span style="color:#000">{empty name="vo.perprice"}'' {else/}{$vo.perprice}%{/empty}</span>
+                        </td>
+                    </tr>
+                    {/volist}
+                    {/empty}
+                    </tbody>
+                </table>
+                <script language='javascript'>
+                    function get_days(){
+
+                        var year = $('select[name=year]').val();
+                        var month =$('select[name=month]').val();
+                        var day  = $('select[name=day]');
+                        day.get(0).options.length = 0 ;
+                        if(month==''){
+                            day.append("<option value=''>日期</option");
+                            return;
+                        }
+
+                        day.get(0).options.length = 0 ;
+                        day.append("<option value=''>...</option").attr('disabled',true);
+                        $.post("{:url('web/tztx.finance/days')}",{year:year,month:month},function(days){
+                            day.get(0).options.length = 0 ;
+                            day.removeAttr('disabled');
+                            days =parseInt(days);
+                            day.append("<option value=''>日期</option");
+                            for(var i=1;i<=days;i++){
+                                day.append("<option value='" + i +"'>" + i + "日</option");
+                            }
+                            {if !empty($day)}
+                            day.val( {$day});
+                            {/if}
+                        })
+                    }
+                    $('select[name=month]').change(function(){
+                        get_days();
+                    })
+
+                    get_days();
+                        /*月*/
+                    $(".search_btn").click(function(){
+                        location = "?month="+$("#month").val()+"&year="+$("#year").val()+"&day="+$("#day").val();
+                    })
+                    $(".search_btn2").click(function(){
+                        location = "?month="+$("#month").val()+"&year="+$("#year").val()+"&export=1&day="+$("#day").val();
+                    })
+                </script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

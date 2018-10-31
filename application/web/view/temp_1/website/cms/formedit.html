@@ -1,0 +1,50 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/website.cms/formlist')}?id={notempty name='content'}{$content.block_id}{/notempty}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+				<ul>
+                	<li>
+                    	<div class="lef"><span class="nam">模块ID：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.block_id}{/notempty}</div>
+                    </li>              	
+                	<li>
+                    	<div class="lef"><span class="nam">内容详情：</span></div>
+                        <div class="rig"> 
+                        	{notempty name='content.content'}
+                            {volist name="content.content" id="vo"}
+                            <p style="padding:3px 0px;">
+                            	<b>{$key}</b>：{$vo}
+                            </p>
+                            {/volist}
+                            {/notempty}                       
+                        </div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">提交时间：</span></div>
+                        <div class="rig">{notempty name='content'}{$content.addtime|date="Y-m-d H:i:s",###}{/notempty}</div>
+                    </li>
+                </ul>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

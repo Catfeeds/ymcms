@@ -1,0 +1,213 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<link rel="stylesheet" type="text/css" href="__CSS__/common.css" />
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+                <a href="javascript:;" class="excel"><img src="__IMAGE__/ico_white/square_add.png" />导出</a>
+                <!-- <a href="{:url('web/tztx.shop/goodsedit')}"><img src="__IMAGE__/ico_white/square_add.png" />添加产品</a> -->
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                        <input type="text" style="width: 20%;border-right: 1px solid #ccc;border-radius: 4px 4px 4px 4px;" class="time" name="time" value="{notempty name='time'}{$time}{/notempty}" placeholder="请选择时间.." />
+                    	<select name="status" id="status">
+                <option value="0">提现类型</option>
+                <!-- 状态 1.微信 2.支付宝 3.银行卡 4.已完成 5.待处理 6.已取消 -->
+                <option  value="1" {notempty name='status'}{if condition='$status == 1'}selected{/if}{/notempty}>微信</option>
+                <option  value="2" {notempty name='status'}{if condition='$status == 2'}selected{/if}{/notempty}>支付宝</option>
+                <option  value="3" {notempty name='status'}{if condition='$status == 3'}selected{/if}{/notempty}>银行卡</option>
+                        </select>
+                        <select name="dispatching" id="dispatching">
+                <option value="0">提现状态</option>
+                <!-- 配送方式 1.立即送 2.预约送 3.快递送 4.自提 -->
+                <option  value="1" {notempty name='dispatching'}{if condition='$dispatching == 1'}selected{/if}{/notempty}>申请中</option>
+                <option  value="2" {notempty name='dispatching'}{if condition='$dispatching == 2'}selected{/if}{/notempty}>已拒绝</option>
+                <option  value="3" {notempty name='dispatching'}{if condition='$dispatching == 3'}selected{/if}{/notempty}>已同意</option>
+                        </select>
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的用户名称或手机号.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                        <th width="10%" class="first">提现ID</th>
+                        <th width="10%" class="">用户名称</th>
+                        <th width="10%" class="">用户手机号</th>
+                        <th width="10%" class="">提现金额</th>
+                        <th width="10%" class="">提现类型</th>
+                        <th width="10%" class="">提现账号</th>
+                        <th width="10%" class="">提现人名称</th>
+                        <th width="10%" class="">提现状态</th>
+                        <th width="10%" class="">申请时间</th>
+                        <th width="10%" class="">操作</th>
+
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="9" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                      	<td>{$vo.id}</td>
+                        <td class="des"><img src="{$vo.picture}" width="50" height="50" />{$vo.nickname}</td>
+                        <td class="des">{$vo.phone}</td>
+                        <td class="des">￥{$vo.money}</td>
+                        <td class="des">{$vo.typename}</td>
+                        <td class="des">{$vo.idcard} {notempty name='vo.type'}{if condition='$vo.type == 2'}{$vo.yh_name}{/if}{/notempty}</td>
+                        <td class="des">{$vo.name}</td>
+                        <td class="des">{$vo.statusname}</td>
+                        <td class="des">{notempty name='vo.addtime'}{$vo.addtime|date='Y-m-d H:i:s',###}{/notempty}</td>
+                        <td class="mark boxs">
+                            {if condition="$vo.status eq 1"}
+                            <a href="javascript:;" id="{$vo.id}" class="bounceInDown"><img src="__IMAGE__/ico_white/browser_ok.png" />审核</a>
+                            {/if}
+                        <a href="{:url('web/tztx.finance/orderdetail')}?id={$vo.id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />详情</a>
+                            
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}
+                    </tbody>
+                </table>
+
+                {$page}
+    <div class="box">
+<!-- 弹窗 -->
+<!--         <div class="demo">
+            <a href="javascript:;" class="bounceIn">DEMO1</a>
+            <a href="javascript:;" class="rollIn">DEMO2</a>
+            <a href="javascript:;" class="bounceInDown">DEMO3</a>
+            <a href="javascript:;" class="flipInX">DEMO4</a>
+        </div> -->
+        <div id="dialogBg"></div>
+        <div id="dialog" class="animated">
+            <img class="dialogIco" width="50" height="50" src="\public\static\html\image\edit.png" alt="" />
+            <div class="dialogTop">
+                <a href="javascript:;" class="claseDialogBtn">关闭</a>
+            </div>
+            <form action="{:url('web/tztx.finance/orderedit')}" method="post" id="editForm">
+                <ul class="editInfos">
+                    <li>
+                        <label>同意：<input type="radio" name="status"  value="3"/>
+                        </label>
+                        <label>拒绝：<input type="radio" name="status"  value="2"/>
+                        </label>
+                    </li>
+                    <li><label><font color="#ff0000">* </font>备注：<input type="text" name="content" required value="" class="ipt" /></label></li>
+                    <li><label><font color="#ff0000">注：</font>拒绝：请说明理由，同意：请及时打款</label></li>
+                    <input type="hidden" name="id" class="gj" value="">
+                    <li><input type="submit" value="确认提交" class="submitBtn" /></li>
+                </ul>
+            </form>
+        </div>
+    </div>
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+                        var status = $('#status').val();
+						location = "?dispatching="+$('#dispatching').val()+"&time="+$('.time').val()+"&status="+status+"&limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/				
+					$(".search_btn").click(function(){
+                    	var status = $('#status').val();
+						location = "?dispatching="+$('#dispatching').val()+"&time="+$('.time').val()+"&status="+status+"&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+                    /*搜索*/              
+                    $(".excel").click(function(){
+                        var status = $('#status').val();
+                        location = "?dispatching="+$('#dispatching').val()+"&time="+$('.time').val()+"&status="+status+"&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val()+'&excel=1';
+                    })
+					/*退款*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认退款？',"{:url('web/tztx.order/order_refund')}?id="+admin_id,'温馨提示：','true');
+					})
+                    /*拒绝退款*/
+                    $(".del").click(function(){
+                        admin_id = $(this).attr('id');
+                        alertBox('确认拒绝退款？',"{:url('web/tztx.order/order_query')}?id="+admin_id,'温馨提示：','true');
+                    })
+                    /*确认收货*/
+                    $(".take").click(function(){
+                        admin_id = $(this).attr('id');
+                        alertBox('确认收货？',"{:url('web/tztx.order/order_take')}?id="+admin_id,'温馨提示：','true');
+                    })
+                    var w,h,className;
+                    function getSrceenWH(){
+                        w = $(window).width();
+                        h = $(window).height();
+                        $('#dialogBg').width(w).height(h);
+                    }
+                    window.onresize = function(){  
+                        getSrceenWH();
+                    }  
+                    $(window).resize();  
+                    $(function(){
+                        getSrceenWH();
+                        //显示弹框
+                        $('.boxs .bounceInDown').click(function(){
+                            className = $(this).attr('class');
+                            $('.gj').val($(this).attr('id'));
+                            $('#dialogBg').fadeIn(300);
+                            $('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+                        });
+                        //关闭弹窗
+                        $('.claseDialogBtn').click(function(){
+                            $('#dialogBg').fadeOut(300,function(){
+                                $('#dialog').addClass('bounceOutUp').fadeOut();
+                            });
+                        });
+                        $('body').click(function (e) {
+                            if (e.target.id == 'dialogBg') {
+                                $('#dialogBg').fadeOut(300,function(){
+                                    $('#dialog').addClass('bounceOutUp').fadeOut();
+                                });
+                            }
+                        })
+                    });
+                });
+				</script>
+                <script type="text/javascript" src="__JS__/laydate.js"></script>
+                <script type="text/javascript">
+                    //日期范围
+                    laydate.render({
+                      elem: '.time'
+                      ,range: '~'
+                    });
+                </script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+
+<!--主体内容 end-->
+{include file="$temp_footer" /}

@@ -1,0 +1,111 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.clinic/doctoredit')}?clinic_id={$clinic_id}"><img src="__IMAGE__/ico_white/square_add.png" />添加医生</a>
+                <a href="{:url('web/medical.clinic/lists')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                    	<select name="status" id="status">
+                        	<option value="0" {notempty name='status'}{if condition='$status == 0 '}selected{/if}{/notempty}>所有状态</option>
+                            <option value="1" {notempty name='status'}{if condition='$status == 1 '}selected{/if}{/notempty}>待审核</option>
+                            <option value="2" {notempty name='status'}{if condition='$status == 2 '}selected{/if}{/notempty}>已审核</option>
+                        </select>
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的用户名或昵称.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+            	<table border="0" cellpadding="5" cellspacing="0">
+                	<thead>
+                      <tr>
+                    	<th width="10%" class="first">会员ID</th>
+                        <th width="15%">昵称</th>
+                        <th width="10%">用户名</th>
+                        <th width="15%">所属诊所</th>
+                        <th width="10%">状态</th>                        
+                        <th width="40%">操作</th>
+                      </tr>
+                    </thead>
+                	<tbody>
+                      {empty name="list"}
+					  <tr><td colspan="6" class="empty">暂无相关数据</td></tr>
+                      {else/}
+                      {volist name="list" id="vo"}
+                      <tr>
+                    	<td>{$vo.id}</td>
+                        <td class="pictex">{notempty name="vo.picture"}<img src="{$vo.picture}" />{$vo.nickname}{else}不存在{/notempty}</td>
+                        <td class="des">{$vo.name}</td>
+                        <td class="des">{$vo.clinic_name}</td>
+                        <td class="des">{if condition="$vo.status == 1 "}<a href="javascript:" id="{$vo.id}" class="status_change">{$vo.status_name}</a>{else /}{$vo.status_name}{/if}</td>
+                        <td class="mark">
+                        	<a href="{:url('web/medical.clinic/chat_expert')}?id={$vo.id}&clinic_id={$clinic_id}" class="zxzj"><img src="__IMAGE__/ico_white/speech_4.png" />咨询专家记录</a>
+                            <a href="{:url('web/medical.clinic/chat_user')}?id={$vo.id}&clinic_id={$clinic_id}" class="yhzx"><img src="__IMAGE__/ico_white/speech_bubbles.png" />用户咨询记录</a>
+                            <a href="{:url('web/medical.clinic/cms_foot')}?id={$vo.id}&clinic_id={$clinic_id}" class="bxgz"><img src="__IMAGE__/ico_white/line_graph.png" />培训统计</a>
+                            <a href="{:url('web/medical.clinic/bbs_doctor')}?doctor_id={$vo.id}&clinic_id={$clinic_id}" class="tztj"><img src="__IMAGE__/ico_white/line_graph_square.png" />帖子统计</a>
+                            <a href="{:url('web/medical.clinic/subscribe')}?id={$vo.id}&clinic_id={$clinic_id}" class="yygl"><img src="__IMAGE__/ico_white/calendar_ok.png" />预约管理</a>                        
+                            <a href="{:url('web/medical.clinic/health_plan')}?id={$vo.id}&clinic_id={$clinic_id}" class="jkjh"><img src="__IMAGE__/ico_white/book_2.png" />健康计划</a>  
+                            <a href="{:url('web/medical.clinic/doctoredit')}?id={$vo.id}&clinic_id={$clinic_id}" class="edit"><img src="__IMAGE__/ico_white/pen_3.png" />编辑</a>
+                            <a href="javascript:;" id="{$vo.id}" class="del"><img src="__IMAGE__/ico_white/bin.png" />删除</a>
+                        </td>
+                      </tr>
+                      {/volist}
+                      {/empty}                                                                           
+                    </tbody>
+                </table>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?clinic_id={$clinic_id}&status={notempty name='status'}{$status}{/notempty}&limit="+$(this).val()+"&search={notempty name='search'}{$search}{/notempty}";
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?clinic_id={$clinic_id}&status="+$("#status").val()+"&limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val();
+					})
+					/*审核*/
+					$(".status_change").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认审核？',"{:url('web/medical.clinic/doctorcheck')}?id="+admin_id,'温馨提示：','true');
+					})
+					/*删除*/
+					$(".del").click(function(){
+						admin_id = $(this).attr('id');
+						alertBox('确认删除？',"{:url('web/medical.clinic/doctordel')}?id="+admin_id,'温馨提示：','true');
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

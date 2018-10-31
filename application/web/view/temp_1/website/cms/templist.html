@@ -1,0 +1,103 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/notepad.png" />{$title}
+            </div>        
+    		<!--列表 start-->
+            <div class="list">
+				<div class="serchbox">
+                	<div class="lef">
+                    	每页
+                        <select name="limit" id="limit">
+                        	{notempty name="limit"}
+                            <option selected disabled>{$limit}</option>
+                            {/notempty}
+                        	<option {empty name='limit'}{if condition='$pagelimit == 6 '}selected{/if}{/empty}>6</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 12 '}selected{/if}{/empty}>12</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 24 '}selected{/if}{/empty}>24</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 36 '}selected{/if}{/empty}>36</option>
+                            <option {empty name='limit'}{if condition='$pagelimit == 48 '}selected{/if}{/empty}>48</option>
+                        </select>
+                        条
+                    </div>
+                    <div class="rig">
+                		<input type="text" id="search" name="search" value="{notempty name='search'}{$search}{/notempty}" placeholder="请输入查找的内容.." /><span class="search_btn"><img src="__IMAGE__/ico_white/magnifying_glass.png" />搜索</span>
+                    </div>
+                </div>
+                <div class="tempchange">
+                	<ul>
+                    	<li class="industry">
+                        	<div class="lef">行业：</div>
+                            <div class="rig"><span {if condition='0 == $industry_id '}class="on"{/if} id="0" class="all">全部</span>{volist name="industry" id="vo"}<span {if condition='$vo.id == $industry_id '}class="on"{/if} id="{$vo.id}">{$vo.name}</span>{/volist}</div>
+                        </li>
+                    	<li class="style">
+                        	<div class="lef">风格：</div>
+                            <div class="rig"><span {if condition='0 == $style_id '}class="on"{/if} id="0" class="all">全部</span>{volist name="style" id="vo"}<span {if condition='$vo.id == $style_id '}class="on"{/if} id="{$vo.id}">{$vo.name}</span>{/volist}</div>
+                        </li>                         
+                    	<li class="color">
+                        	<div class="lef">颜色：</div>
+                            <div class="rig"><span {if condition='0 == $color_id '}class="on"{/if} id="0" class="all">全部</span>{volist name="color" id="vo"}<span {if condition='$vo.id == $color_id '}class="on"{/if} id="{$vo.id}">{$vo.name}</span>{/volist}</div>
+                        </li>                                                
+                    </ul>
+                </div>
+                <div class="templist">
+                	{empty name="list"}
+                    <p style="padding:50px;text-align:center;">暂无相关数据</p>
+                    {else/}    
+                	<ul>
+                    	{volist name="list" id="vo"}
+                    	<li id="{$vo.id}">
+                        	<p class="img"><img src="__SYSTEM__/image{$vo.picture}" alt="{$vo.name}" /><span class="space">&nbsp;</span></p>
+                            <p class="nam"><span class="t">编号：</span>{$vo.id}</p>
+                            <p class="nam"><span class="t">名称：</span>{$vo.name}</p>
+                            <p class="des"><span class="t">简介：</span>{$vo.description}</p>
+                            <p class="btn">
+                            	<a class="apply" target="_blank" href="{$system_url}/applysite/{$vo.id}.html">立即开通</a>
+                            </p>
+                        </li>
+                        {/volist}
+                    </ul>
+                    {/empty}  
+                </div>
+                {$page}
+                <script>
+				$(document).ready(function(e){
+					function getlocation(){
+						var industry_id = $('.industry').find('.on').attr('id');
+						var style_id = $('.style').find('.on').attr('id');
+						var color_id = $('.color').find('.on').attr('id');
+						var location = "&industry_id="+industry_id+"&style_id="+style_id+"&color_id="+color_id;
+						return location;								
+					}
+					/*每页条数*/
+					$("#limit").change(function(){
+						location = "?limit="+$(this).val()+"{notempty name='search'}&search={$search}{/notempty}" + getlocation();
+					})
+					/*搜索*/
+					$(".search_btn").click(function(){
+						location = "?limit={notempty name='limit'}{$limit}{/notempty}&search="+$("#search").val() + getlocation();
+					})
+					/*筛选*/
+					$(".tempchange li .rig span").click(function(){
+						$(this).parents('.rig').find('span').removeClass('on');
+						$(this).addClass('on');
+						location = "?limit={notempty name='limit'}{$limit}{/notempty}{notempty name='search'}&search={$search}{/notempty}" + getlocation();
+					})
+                });
+				</script>
+            </div>
+            <!--列表 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}

@@ -1,0 +1,353 @@
+{include file="$temp_header" /}
+<!--主体内容 start-->
+<div id="main">
+	{include file="$temp_aside" /}
+    <div id="content">
+    	<div class="title">
+          <div class="box">
+        	<div class="lef">{$title}</div>
+            <div class="rig">
+            	<a href="{:url('web/medical.cms/blocklist')}"><img src="__IMAGE__/ico_white/circle_left.png" />返回</a>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+            <div class="tit">
+                <img src="__IMAGE__/ico_black/circle_plus.png" />{$title}
+            </div>
+    		<!--内容 start-->
+            <div class="info">
+              <form action="" id="fileups" method="post" enctype="multipart/form-data">
+              <iframe id="upload_target" name="upload_target" src="#" style="display:none;width:0;height:0;border:0px solid #fff;"></iframe>
+				<ul>              
+                	<li>
+                    	<div class="lef"><span class="nam">模块类型：</span></div>
+                        <div class="rig">
+                        	{empty name='content'}
+                            <select name="type" id="type">
+                                <option value="1" {notempty name='content'}{if condition='$content.type==1 '}selected{/if}{/notempty}>单图文</option>
+                                <option value="2" {notempty name='content'}{if condition='$content.type==2 '}selected{/if}{/notempty}>列表菜单</option>
+                            </select>
+                            {/empty}
+                            {notempty name='content'}{if condition='$content.type==1 '}<input type="hidden" name="type" value="{$content.type}"/>单图文{/if}{/notempty}
+                            {notempty name='content'}{if condition='$content.type==2 '}<input type="hidden" name="type" value="{$content.type}"/>列表菜单{/if}{/notempty}
+                        </div>
+                    </li>                                      
+                	<li>
+                    	<div class="lef"><span class="nam">名称：</span></div>
+                        <div class="rig"><input type="text" name="name" value="{notempty name='content'}{$content.name}{/notempty}" placeholder="请输入名称.." required /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">图标：</span></div>
+                        <div class="rig">{notempty name='content.ico'}{volist name="content.ico" id="vo"}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_{$vo.basename}" value="" /><span><img src="{$vo.filename}" class="filejson" filename="{$vo.filename}" /><b>{$vo.basename}</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>{/volist}{else/}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_1" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label></div>{/notempty}<div class="imgbox"><span class="fileadd_ico fileadd"><img src="__IMAGE__/ico_white/plus.png" />添加</span><input type="hidden" name="ico" class="fileval" value="" /></div></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">图片：</span></div>
+                        <div class="rig">{notempty name='content.picture'}{volist name="content.picture" id="vo"}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_{$vo.basename}" value="" /><span><img src="{$vo.filename}" class="filejson" filename="{$vo.filename}" /><b>{$vo.basename}</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>{/volist}{else/}<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="file_2" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label></div>{/notempty}<div class="imgbox"><span class="fileadd_picture fileadd"><img src="__IMAGE__/ico_white/plus.png" />添加</span><input type="hidden" name="picture" class="fileval" value="" /></div></div>
+                    </li> 
+                	<li>
+                    	<div class="lef"><span class="nam">标题：</span></div>
+                        <div class="rig"><input type="text" name="title" value="{notempty name='content'}{$content.title}{/notempty}" placeholder="请输入标题.." /></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">简介：</span></div>
+                        <div class="rig"><textarea name="description" placeholder="请输入简介..">{notempty name='content'}{$content.description}{/notempty}</textarea></div>
+                    </li>
+                	<li>
+                    	<div class="lef"><span class="nam">内容：</span></div>
+                        <div class="rig">
+                        	<div class="inpcon" id="type_1">
+                            <!-- 加载编辑器的容器 -->
+							<script id="container" name="content" type="text/plain">{notempty name='content'}{if condition='$content.type==1 || $content.type==4 || $content.type==-1 || $content.type==-2 '}{$content.content}{/if}{/notempty}</script>
+							<script type="text/javascript">
+							$(document).ready(function(e){
+                                //实例化编辑器
+                                var ue = UE.getEditor('container');									
+                            });
+                            </script>                  
+                            </div>
+                            <div id="type_2">
+                            	<div class="type2_nav">
+                                	<a href="javascript:;" class="on" >自定义列表</a>
+                                </div>
+                            	<textarea style="display:none;width:100%;height:100px;" name="content2" id="content2">{notempty name="content"}{$content.content}{/notempty}</textarea>
+                                {notempty name="content"}
+                                {if condition='$content.type==2 '}
+                                {notempty name="content.content"}
+                                <div class="content2_type1">
+                                {volist name="content.content2.type1" id="vo"}                                
+                            	<div class="line">
+                                	<p><span>名称：</span><input class="connam" disabled type="text" value="{$vo.name}" /></p>
+                                    <p><span>描述：</span><textarea class="condes" disabled>{$vo.description}</textarea></p>
+                                    <p>
+                                    	<span>图片：</span>
+                                        <label class="files">
+                                            <input class="conpic filesinp" type="file" name="" value="" />
+                                            <span><img src="{$vo.picture}" filename="{$vo.picture}" /><b>缩略图</b></span>
+                                        </label>
+                                    </p>
+                                    <p><span>链接：</span><input class="conurl" disabled type="text" value="{$vo.url}" /></p>
+                                    <div class="mark">
+                                        <a href="javascript:;" class="subbb">√确认</a>
+                                        <a href="javascript:;" class="editbb">⊙修改</a>
+                                        <a href="javascript:;" class="delbb">×删除</a>
+                                    </div>
+                                </div>
+                                {/volist}
+                                {/notempty}
+                                {/if}
+                                {/notempty}     
+                            	<div class="line">
+                                	<p><span>名称：</span><input class="connam" type="text" value="" /></p>
+                                    <p><span>描述：</span><textarea class="condes"></textarea></p>
+                                    <p>
+                                    	<span>图片：</span>
+                                        <label class="files">
+                                            <input class="conpic filesinp" type="file" name="file_3" value="" />
+                                            <span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span>
+                                        </label>
+                                    </p>
+                                    <p><span>链接：</span><input  class="conurl" type="text" value="" /></p>
+                                    <div class="mark">
+                                        <a href="javascript:;" class="subbb">√确认</a>
+                                        <a href="javascript:;" class="editbb">⊙修改</a>
+                                        <a href="javascript:;" class="delbb">×删除</a>
+                                    </div>
+                                </div>
+                                <div class="addblock">+添加</div>
+                            
+                            </div>                         
+                        </div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">排序：</span></div>
+                        <div class="rig"><input type="number" name="order" value="{notempty name='content'}{$content.order}{else/}100{/notempty}" placeholder="请输入排序.." /><span class="des">数字越大越靠前，不填则默认为100</span></div>
+                    </li>
+                    <li>
+                    	<div class="lef"><span class="nam">状态：</span></div>
+                        <div class="rig">
+                        	<div class="switches"><img src="" imga="__IMAGE__/switches_a.png" imgb="__IMAGE__/switches_b.png" status="{notempty name='content'}{$content.status}{else/}1{/notempty}" /><span>启用</span></div>
+                            <input id="status" type="hidden" name="status" value="{notempty name='content'}{$content.status}{else/}1{/notempty}" />
+                        </div>
+                    </li>
+                    <li>
+                    	<div class="lef">&nbsp;</div>
+                        <div class="rig"><button type="button" id="upmit">{$submit.name}</button></div>
+                    </li>
+                </ul>
+                <script>
+				/*实时整理上传参数*/
+				function fileval(randclass){
+					var filejson_li = randclass.parents('li');
+					var filejson_arr = new Array();
+					filejson_li.find('.files').each(function(i){
+                        filejson_arr[i] = $(this).find('.filejson').attr('filename');
+                    });
+					filejson_li.find('.fileval').val(filejson_arr);
+				}
+				$('.fileval').each(function(){
+                   fileval($(this)); 
+                });
+                /*异步上传的回调方法*/
+                function stopUpload(filename,oldname,randclass){
+					var randclass = $('.'+randclass);
+					var filesrc = ""+filename;
+					randclass.find('img').addClass('filejson').attr('src',filesrc).attr('filename',filename);
+					randclass.find('b').text(oldname);
+					fileval(randclass);
+                }
+				$(document).ready(function(e){
+					$('.filesinp').each(function(i) {
+                        $(this).attr('name','filechange_'+i);
+                    });
+					/*选择图片*/
+					function filechange(){	
+						/*选取事件*/
+						$('.filesinp').change(function(){
+							/*增加异步识别类*/
+							var mydate = new Date();
+							var randclass = 'ajax'+mydate.getTime()+parseInt(999990*Math.random());
+							$(this).parents('label').addClass(randclass);
+							/*提交表单*/
+							var inpname = $(this).attr('name');
+							$("#fileups").attr("action","{:url('System/fileups')}?inpname="+inpname+"&randclass="+randclass);
+							$("#fileups").attr("target","upload_target");
+							$("#fileups").submit();
+						})
+						/*删除*/
+						$(".del").click(function(){
+							var delfileval = $(this).parents('li').find('.fileval');
+							$(this).parent().remove();
+							fileval(delfileval);
+						})
+					}
+					filechange();
+					/*上传添加*/
+					$(".fileadd").click(function(){
+						var filesinp_num = $('.filesinp').length + 1;
+						$(this).parents('.imgbox').before('<div class="imgbox"><label class="files"><input class="filesinp" type="file" name="fileadd_'+filesinp_num+'" value="" /><span><img src="__IMAGE__/ico_white/magnifying_glass.png" /><b>选择文件</b></span></label><span class="del"><img src="__IMAGE__/ico_white/bin.png" /></span></div>');
+						filechange();
+					})
+                    /*状态*/
+					function changestatus(){
+						var status = $(".switches img").attr('status');
+						if(status == 1){
+							$(".switches img").attr('src',$(".switches img").attr('imgb'));
+                            $(".switches img").parent().find('span').text('启用');
+						}else{
+							$(".switches img").attr('src',$(".switches img").attr('imga'));
+                            $(".switches img").parent().find('span').text('禁用');
+						}
+					}
+					changestatus()
+					$(".switches img").click(function(){
+						if($(this).attr('status') == 1){
+							$(this).attr('status',0);
+							$(this).attr('src',$(this).attr('imga'));
+							$(this).parent().find('span').text('禁用');
+							$("#status").val(0);
+						}else{
+							$(this).attr('status',1);
+							$(this).attr('src',$(this).attr('imgb'));
+							$(this).parent().find('span').text('启用');
+							$("#status").val(1);						
+						}
+						changestatus();
+					})
+					/*提交*/
+					$("#upmit").click(function(){
+						$("#fileups").attr("action","{$submit.url}");
+						$("#fileups").attr("target","");
+						$("#fileups").submit();						
+					})
+					/*类型*/
+					function changetype(){
+						var nulltype = $('#type').val();
+						var type = "{notempty name='content'}{$content.type}{else /}"+nulltype+"{/notempty}";
+						if(type==1){
+							/*单图文*/
+							$("#type_1").show();
+							$("#type_2").hide();
+						}else if(type==2){
+							/*列表菜单*/
+							$("#type_2").show();
+							$("#type_1").hide();
+						}					
+					}
+					changetype();
+					$('#type').change(function(){
+						changetype();
+					})
+					/*列表菜单 start*/
+					/*更新列表菜单参数*/
+					function uptype2(){
+						var content2_json = '{';
+						/*自定义列表*/
+						content2_json += '"type1":[';
+						$("#type_2 .line").each(function(i){
+							var li_connam = $(this).find('.connam');
+							var li_condes = $(this).find('.condes');
+							var li_conpic = $(this).find('img');
+							var li_conurl = $(this).find('.conurl');
+                            if(li_connam.attr('disabled') == 'disabled'){
+							  //组装已确认项参数JSON
+							  if(i==0){
+							 	content2_json += '{';
+							  }else{
+							  	content2_json += ',{';
+							  }
+							  content2_json += '"name":"'+li_connam.val()+'",';
+							  content2_json += '"description":"'+li_condes.val()+'",';
+							  content2_json += '"picture":"'+li_conpic.attr('filename')+'",';
+							  content2_json += '"url":"'+li_conurl.val()+'"';
+							  content2_json += '}';
+						    }
+                        });
+						content2_json += ']';
+						/*系统内容*/
+						content2_json += ',"type2":{';
+							content2_json += '"category":"'+$('#category').val()+'",';
+							content2_json += '"order":"'+$('input:radio[name="order"]:checked').val()+'",';
+							content2_json += '"limit":"'+$('#limit').val()+'",';
+							content2_json += '"page":"'+$('input:radio[name="page"]:checked').val()+'"';
+						content2_json += '}';
+						/*选项状态*/
+						content2_json += ',"status":';
+						$('.type2_nav').find('a').each(function(i){
+							if($(this).hasClass('on')){
+								content2_json += i+1;
+							}							
+						})
+						content2_json += '}';
+						$("#content2").text(content2_json);					
+					}	
+					/*选项卡*/
+					function changeContentType(i){
+						if(i==0){
+							$('.content2_type1').show();
+							$('.content2_type2').hide();
+						}else if(i==1){
+							$('.content2_type1').hide();
+							$('.content2_type2').show();
+						}					
+					}
+					$('.type2_nav').find('a').each(function(i){
+                        if($(this).hasClass('on')){
+							changeContentType(i);
+						}
+						$(this).click(function(){
+							$(this).addClass('on').siblings('a').removeClass('on');
+							changeContentType(i);
+							uptype2();/*更新列表菜单参数*/
+						})
+                    });	
+					$('.content2_type2').find('input,select').change(function(){
+						uptype2();/*更新列表菜单参数*/
+					})
+					$('.content2_type2').find('input,select').mouseleave(function(){
+						uptype2();/*更新列表菜单参数*/
+					})								
+					/*删除*/
+					$('.delbb').click(function(){
+						var delbbsize = $('.delbb').length;
+						if(delbbsize > 1){
+							$(this).parents('.line').remove();
+						}else{
+							alertBox('您至少需要保留一项列表');
+						}
+						uptype2();/*更新列表菜单参数*/
+					})
+					/*添加*/
+					$('.addblock').click(function(){
+						var newblock = $(this).prev('.line').clone(true);
+						newblock.find('input,textarea').val('').attr('disabled',false);
+						newblock.find('img').attr('src','__IMAGE__/ico_white/magnifying_glass.png').attr('filename','');
+						$(this).before(newblock);
+					})		
+					/*确认*/
+					$('.subbb').click(function(){
+						var li = $(this).parents('.line');
+						var connam = li.find('.connam').val();
+						if(connam=='' || connam==' '){
+							alertBox('名称不可为空');
+						}else{
+							li.find('input,textarea').attr('disabled',true);
+						}
+						uptype2();/*更新列表菜单参数*/
+					})
+					/*修改*/
+					$('.editbb').click(function(){
+						var li = $(this).parents('.line');
+						li.find('input,textarea').attr('disabled',false);
+					})		
+					/*列表菜单 end*/									
+                });
+				</script>
+              <form>  
+            </div>
+            <!--内容 end-->
+        </div>        
+    </div>
+</div>
+<!--主体内容 end-->
+{include file="$temp_footer" /}
